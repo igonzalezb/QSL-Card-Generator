@@ -57,10 +57,16 @@ pip install pyinstaller
 python build.py
 ```
 ## ToDos
+- [X] Fix ADIF importer to handle edge cases and malformed files more gracefully.
+- [ ] Add default empty card template.
+- [ ] Auto resize background image to fit the card dimensions.
+- [ ] Add comments to QSL card.
+- [ ] Change table size (scale).
+- [ ] Zoom using touchpad scrolling.
+- [ ] Right-click context menu for zooming and resetting zoom in the preview.
 - [ ] Add call sign on the card.
 - [ ] Add options for setting zones, grid squares, and other QSO details on the card.
 - [ ] Add support for exporting QSL cards in various formats.
-- [ ] Add defefault empty card template.
 
 ## Disclaimer
 

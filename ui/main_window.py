@@ -338,7 +338,11 @@ class QSLGeneratorApp(QMainWindow):
     def populate_table(self, filepath):
         try:
             contacts, _ = adif_io.read_from_file(filepath)
-
+            for qso in contacts:
+                for key, value in qso.items():
+                    if isinstance(value, str):
+                        qso[key] = value.replace('\n', '').replace('\r', '').strip()
+                        
             self.qso_data = contacts
 
             self.table.setRowCount(len(contacts))
