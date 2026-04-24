@@ -17,7 +17,13 @@ def clean_temp_files():
 
 if __name__ == "__main__":
     print("Starting PyInstaller build process...")
-
+    # check if pyinstaller is installed
+    try:
+        subprocess.run(["pyinstaller", "--version"], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    except subprocess.CalledProcessError:
+        print("PyInstaller is not installed. Please install it using 'pip install pyinstaller' and try again.")
+        exit(1)
+        
     process = subprocess.run(["pyinstaller", "main.spec", "--clean"])
 
     print("\n" + "=" * 50)

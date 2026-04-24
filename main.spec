@@ -38,7 +38,6 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    # AQUÍ ESTÁ EL CAMBIO: Usamos un f-string con la versión
     name=f'QSL_Generator_v{APP_VERSION}', 
     debug=False,
     bootloader_ignore_signals=False,

@@ -60,6 +60,7 @@ python build.py
 - [ ] Add call sign on the card.
 - [ ] Add options for setting zones, grid squares, and other QSO details on the card.
 - [ ] Add support for exporting QSL cards in various formats.
+- [ ] Add defefault empty card template.
 
 ## Disclaimer
 
