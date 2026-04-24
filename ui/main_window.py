@@ -95,6 +95,8 @@ class QSLGeneratorApp(QMainWindow):
         layout_preview.addWidget(self.scroll_area)
 
         self.lbl_preview.installEventFilter(self)
+        self.lbl_preview.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
+        self.lbl_preview.customContextMenuRequested.connect(self.show_preview_menu)
 
     def apply_translations(self):
         self.setWindowTitle(f"{tr('title')} v{APP_VERSION}")
@@ -718,3 +720,31 @@ class QSLGeneratorApp(QMainWindow):
 
         if reply == QMessageBox.StandardButton.Yes:
             QDesktopServices.openUrl(QUrl(url))
+    def show_preview_menu(self, pos):
+        # Si no hay imagen cargada, no mostramos el menú
+        if not self.current_qimage:
+            return
+
+        menu = QMenu()
+
+        action_zoom_in = menu.addAction(tr("zoom_in"))
+        action_zoom_out = menu.addAction(tr("zoom_out"))
+        menu.addSeparator()
+        action_zoom_fit = menu.addAction(tr("zoom_fit"))
+
+        # Mostrar el menú en la posición del mouse
+        action = menu.exec(self.lbl_preview.mapToGlobal(pos))
+
+        if action == action_zoom_in:
+            self.zoom_factor *= 1.15
+            self.zoom_factor = min(self.zoom_factor, 5.0) # Límite máximo
+            self.update_preview(force_render=False)
+
+        elif action == action_zoom_out:
+            self.zoom_factor /= 1.15
+            self.zoom_factor = max(0.1, self.zoom_factor) # Límite mínimo
+            self.update_preview(force_render=False)
+
+        elif action == action_zoom_fit:
+            self.zoom_factor = 1.0 # 1.0 es el ajuste automático al ScrollArea
+            self.update_preview(force_render=False)

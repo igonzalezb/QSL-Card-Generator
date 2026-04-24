@@ -10,7 +10,7 @@
   "btn_bg": "Background...",
   "btn_adif": "ADIF...",
   "btn_export": "Generate and Save QSLs",
-  "preview_group": "Preview (Mouse wheel to Zoom)",
+  "preview_group": "Preview",
   "no_img": "No image",
   "no_adif": "No ADIF",
   "preview_hint": "Load an image and select a contact.",
@@ -57,5 +57,8 @@
   "update_title": "Update Available!",
   "update_msg": "Version {version} of QSL Generator is now available.\nDo you want to download it now?",
   "resize_title": "Aspect Ratio Adjustment",
-  "resize_msg": "The image does not have a 16:9 aspect ratio (widescreen).\nDo you want the program to automatically crop and resize it for a perfect fit?"
+  "resize_msg": "The image does not have a 16:9 aspect ratio (widescreen).\nDo you want the program to automatically crop and resize it for a perfect fit?",
+  "zoom_in": "Zoom In",
+  "zoom_out": "Zoom Out",
+  "zoom_fit": "Fit to Window"
 }
