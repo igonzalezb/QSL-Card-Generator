@@ -24,9 +24,9 @@ class ExportWorker(QThread):
             base_img = Image.open(self.bg_path).convert("RGBA")
             for i, item in enumerate(self.export_data):
                 try:
-                    final_img, call = draw_qsl_core(base_img.copy(), self.config, item['datos'])
+                    final_img, call = draw_qsl_core(base_img.copy(), self.config, item['data'])
                     save_path = os.path.join(self.out_dir, f"QSL_{call.replace('/', '-')}_{item['row']}.jpg")
-                    final_img.save(save_path, "JPEG", quality=95)
+                    final_img.save(save_path, "JPEG", quality=100)
                     procesados += 1
                 except Exception as e:
                     logger.error(f"Error processing row {item['row']}: {e}")
