@@ -1,0 +1,16 @@
+# Entornos virtuales
+venv/
+env/
+
+# Archivos de caché de Python
+__pycache__/
+*.pyc
+
+# Archivo de configuracion local y logs
+qsl_config.json
+qsl_errores.log
+/.vscode
+/build
+/dist
+qsl_info.log
+/tests
