@@ -59,7 +59,7 @@ python build.py
 ## ToDos
 - [X] Fix ADIF importer to handle edge cases and malformed files more gracefully.
 - [ ] Add default empty card template.
-- [ ] Auto resize background image to fit the card dimensions.
+- [X] Auto resize background image to fit the card dimensions.
 - [ ] Add comments to QSL card.
 - [ ] Change table size (scale).
 - [ ] Zoom using touchpad scrolling.

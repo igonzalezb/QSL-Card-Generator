@@ -55,5 +55,7 @@
     "center": "Absolute Center"
   },
   "update_title": "Update Available!",
-  "update_msg": "Version {version} of QSL Generator is now available.\nDo you want to download it now?"
+  "update_msg": "Version {version} of QSL Generator is now available.\nDo you want to download it now?",
+  "resize_title": "Aspect Ratio Adjustment",
+  "resize_msg": "The image does not have a 16:9 aspect ratio (widescreen).\nDo you want the program to automatically crop and resize it for a perfect fit?"
 }

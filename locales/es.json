@@ -55,5 +55,7 @@
     "center": "Centro Absoluto"
   },
   "update_title": "¡Actualización Disponible!",
-  "update_msg": "La versión {version} de QSL Generator ya está disponible.\n¿Querés ir a descargarla ahora?"
+  "update_msg": "La versión {version} de QSL Generator ya está disponible.\n¿Querés ir a descargarla ahora?",
+  "resize_title": "Ajuste de Proporción",
+  "resize_msg": "La imagen no tiene una proporción de 16:9 (formato panorámico).\n¿Querés que el programa la recorte y ajuste automáticamente para que encaje perfecto?"
 }

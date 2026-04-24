@@ -17,7 +17,7 @@ from PyQt6.QtGui import QImage, QPixmap, QDesktopServices
 from PyQt6 import uic
 from PyQt6.QtCore import Qt, QEvent, QUrl
 
-from PIL import Image
+from PIL import Image, ImageOps
 import adif_io
 
 from core.i18n import tr, init_i18n
@@ -317,10 +317,45 @@ class QSLGeneratorApp(QMainWindow):
         )
 
         if filename:
+            try:
+                img = Image.open(filename)
+                w, h = img.size
+                
+                # Calculamos la proporción actual
+                current_ratio = w / h
+                target_ratio = 16 / 9 # 1.777...
+                
+                # Chequeamos si la diferencia es mayor a una tolerancia (0.01)
+                # Esto permite que fotos de 1921x1080 pasen sin error.
+                if abs(current_ratio - target_ratio) > 0.01:
+                    
+                    reply = QMessageBox.question(
+                        self,
+                        tr("resize_title"),
+                        tr("resize_msg"),
+                        QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+                        QMessageBox.StandardButton.Yes
+                    )
+
+                    if reply == QMessageBox.StandardButton.Yes:
+                        # Si acepta, la llevamos al estándar del programa (1920x1080)
+                        img = ImageOps.fit(img, (1920, 1080), Image.Resampling.LANCZOS)
+                        
+                        name, ext = os.path.splitext(filename)
+                        new_filename = f"{name}_16_9{ext}"
+                        
+                        if ext.lower() in ['.jpg', '.jpeg']:
+                            img.convert("RGB").save(new_filename, "JPEG", quality=95)
+                        else:
+                            img.save(new_filename)
+                            
+                        filename = new_filename
+
+            except Exception as e:
+                logger.error(f"Error checking aspect ratio: {e}")
+
             self.bg_image_path = filename
-
             self.lbl_bg.setText(os.path.basename(filename))
-
             self.on_selection_changed()
 
     def load_adif(self):
