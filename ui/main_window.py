@@ -235,23 +235,39 @@ class QSLGeneratorApp(QMainWindow):
         self.on_selection_changed()
 
     def eventFilter(self, source, event):
-        if source == self.lbl_preview and event.type() == QEvent.Type.Wheel:
+            if source == self.lbl_preview:
+                
+                # --- 1. Gesto de Pellizcar en Touchpad (Pinch-to-Zoom) ---
+                if event.type() == QEvent.Type.NativeGesture:
+                    if event.gestureType() == Qt.NativeGestureType.ZoomNativeGesture:
+                        if not self.current_qimage:
+                            return super().eventFilter(source, event)
 
-            if not self.current_qimage:
-                return super().eventFilter(source, event)
+                        # event.value() trae el nivel de incremento/decremento del pellizco
+                        zoom_multiplier = 1.0 + event.value()
+                        self.zoom_factor *= zoom_multiplier
+                        
+                        self.zoom_factor = max(0.1, min(self.zoom_factor, 5.0))
+                        self.update_preview(force_render=False)
+                        return True
 
-            if event.angleDelta().y() > 0:
-                self.zoom_factor *= 1.15
-            else:
-                self.zoom_factor /= 1.15
+                # --- 2. Rueda del Mouse tradicional o Scroll de dos dedos ---
+                elif event.type() == QEvent.Type.Wheel:
+                    if not self.current_qimage:
+                        return super().eventFilter(source, event)
 
-            self.zoom_factor = max(0.1, min(self.zoom_factor, 5.0))
+                    # Usamos angleDelta que es el estándar para la rueda del mouse
+                    delta = event.angleDelta().y()
+                    if delta > 0:
+                        self.zoom_factor *= 1.15
+                    elif delta < 0:
+                        self.zoom_factor /= 1.15
 
-            self.update_preview(force_render=False)
+                    self.zoom_factor = max(0.1, min(self.zoom_factor, 5.0))
+                    self.update_preview(force_render=False)
+                    return True
 
-            return True
-
-        return super().eventFilter(source, event)
+            return super().eventFilter(source, event)
 
     def on_table_item_changed(self, item):
         selected = self.table.selectionModel().selectedRows()

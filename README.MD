@@ -62,7 +62,7 @@ python build.py
 - [X] Auto resize background image to fit the card dimensions.
 - [ ] Add comments to QSL card.
 - [ ] Change table size (scale).
-- [ ] Zoom using touchpad scrolling.
+- [X] Zoom using touchpad scrolling.
 - [ ] Right-click context menu for zooming and resetting zoom in the preview.
 - [ ] Add call sign on the card.
 - [ ] Add options for setting zones, grid squares, and other QSO details on the card.
