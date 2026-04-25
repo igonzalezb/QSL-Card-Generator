@@ -40,6 +40,9 @@ QSL-Card-Generator/
 │   ├── engine.py           # Image rendering engine (Pillow)
 │   ├── exporter.py         # Background processing threads
 │   └── i18n.py             # Internationalization system
+│   └── version.py          # Version information
+│   └── updater.py          # Update system
+│   └── utils.py            # Utility functions
 ├── ui/                     # UI controllers
 │   ├── main_window.py      # Main window
 │   └── settings_dialog.py  # Settings dialog
