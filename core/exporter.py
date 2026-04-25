@@ -19,21 +19,21 @@ class ExportWorker(QThread):
         
     def run(self):
         logger.info(f"Starting export of {len(self.export_data)} QSLs.")
-        procesados, errores = 0, []
+        processed, errors = 0, []
         try:
             base_img = Image.open(self.bg_path).convert("RGBA")
             for i, item in enumerate(self.export_data):
                 try:
                     final_img, call = draw_qsl_core(base_img.copy(), self.config, item['data'])
-                    save_path = os.path.join(self.out_dir, f"QSL_{call.replace('/', '-')}_{item['row']}.jpg")
-                    final_img.save(save_path, "JPEG", quality=100)
-                    procesados += 1
+                    save_path = os.path.join(self.out_dir, f"QSL_{call.replace('/', '-')}_{item['row']}.png")
+                    final_img.save(save_path, "PNG")
+                    processed += 1
                 except Exception as e:
                     logger.error(f"Error processing row {item['row']}: {e}")
-                    errores.append(f"Row {item['row'] + 1}: {str(e)}")
+                    errors.append(f"Row {item['row'] + 1}: {str(e)}")
                 self.progress.emit(i + 1)
         except Exception as e: 
             logger.critical(f"Critical error opening base image: {e}")
-            errores.append(f"Fatal: {str(e)}")
+            errors.append(f"Fatal: {str(e)}")
             
-        self.finished_export.emit(procesados, errores)
+        self.finished_export.emit(processed, errors)

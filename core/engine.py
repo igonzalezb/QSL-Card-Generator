@@ -56,7 +56,7 @@ def draw_qsl_core(base_img: Image.Image, config: dict, datos: list) -> tuple[Ima
     w4 = tot_w - (w1 + w2 + w3) 
 
     _cell(base_x, base_y, w1, row_h, "OPERATOR:", c_h_bg, c_h_tx)
-    _cell(base_x + w1, base_y, w2, row_h, config["indicativo"], c_d_bg, c_d_tx)
+    _cell(base_x + w1, base_y, w2, row_h, config["callsign"], c_d_bg, c_d_tx)
     _cell(base_x + w1 + w2, base_y, w3, row_h, "QSO WITH:", c_h_bg, c_h_tx)
     _cell(base_x + w1 + w2 + w3, base_y, w4, row_h, datos[0], c_d_bg, c_d_tx)
 
