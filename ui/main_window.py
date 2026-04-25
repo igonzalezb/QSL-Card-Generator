@@ -56,6 +56,7 @@ class QSLGeneratorApp(QMainWindow):
             "color_h_txt": "#ffffff",
             "color_d_bg": "#f5f5f5",
             "color_d_txt": "#000000",
+            "table_scale": 1.0,
         }
 
         self.load_config()
@@ -238,14 +239,11 @@ class QSLGeneratorApp(QMainWindow):
 
     def eventFilter(self, source, event):
             if source == self.lbl_preview:
-                
-                # --- 1. Gesto de Pellizcar en Touchpad (Pinch-to-Zoom) ---
                 if event.type() == QEvent.Type.NativeGesture:
                     if event.gestureType() == Qt.NativeGestureType.ZoomNativeGesture:
                         if not self.current_qimage:
                             return super().eventFilter(source, event)
 
-                        # event.value() trae el nivel de incremento/decremento del pellizco
                         zoom_multiplier = 1.0 + event.value()
                         self.zoom_factor *= zoom_multiplier
                         
@@ -253,12 +251,10 @@ class QSLGeneratorApp(QMainWindow):
                         self.update_preview(force_render=False)
                         return True
 
-                # --- 2. Rueda del Mouse tradicional o Scroll de dos dedos ---
                 elif event.type() == QEvent.Type.Wheel:
                     if not self.current_qimage:
                         return super().eventFilter(source, event)
 
-                    # Usamos angleDelta que es el estándar para la rueda del mouse
                     delta = event.angleDelta().y()
                     if delta > 0:
                         self.zoom_factor *= 1.15
@@ -339,12 +335,9 @@ class QSLGeneratorApp(QMainWindow):
                 img = Image.open(filename)
                 w, h = img.size
                 
-                # Calculamos la proporción actual
                 current_ratio = w / h
-                target_ratio = 16 / 9 # 1.777...
+                target_ratio = 16 / 9
                 
-                # Chequeamos si la diferencia es mayor a una tolerancia (0.01)
-                # Esto permite que fotos de 1921x1080 pasen sin error.
                 if abs(current_ratio - target_ratio) > 0.01:
                     
                     reply = QMessageBox.question(
@@ -356,7 +349,6 @@ class QSLGeneratorApp(QMainWindow):
                     )
 
                     if reply == QMessageBox.StandardButton.Yes:
-                        # Si acepta, la llevamos al estándar del programa (1920x1080)
                         img = ImageOps.fit(img, (1920, 1080), Image.Resampling.LANCZOS)
                         
                         name, ext = os.path.splitext(filename)
@@ -721,7 +713,6 @@ class QSLGeneratorApp(QMainWindow):
         if reply == QMessageBox.StandardButton.Yes:
             QDesktopServices.openUrl(QUrl(url))
     def show_preview_menu(self, pos):
-        # Si no hay imagen cargada, no mostramos el menú
         if not self.current_qimage:
             return
 
@@ -732,19 +723,18 @@ class QSLGeneratorApp(QMainWindow):
         menu.addSeparator()
         action_zoom_fit = menu.addAction(tr("zoom_fit"))
 
-        # Mostrar el menú en la posición del mouse
         action = menu.exec(self.lbl_preview.mapToGlobal(pos))
 
         if action == action_zoom_in:
             self.zoom_factor *= 1.15
-            self.zoom_factor = min(self.zoom_factor, 5.0) # Límite máximo
+            self.zoom_factor = min(self.zoom_factor, 5.0)
             self.update_preview(force_render=False)
 
         elif action == action_zoom_out:
             self.zoom_factor /= 1.15
-            self.zoom_factor = max(0.1, self.zoom_factor) # Límite mínimo
+            self.zoom_factor = max(0.1, self.zoom_factor)
             self.update_preview(force_render=False)
 
         elif action == action_zoom_fit:
-            self.zoom_factor = 1.0 # 1.0 es el ajuste automático al ScrollArea
+            self.zoom_factor = 1.0
             self.update_preview(force_render=False)

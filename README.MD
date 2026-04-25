@@ -61,7 +61,7 @@ python build.py
 - [ ] Add default empty card template.
 - [X] Auto resize background image to fit the card dimensions.
 - [ ] Add comments to QSL card.
-- [ ] Change table size (scale).
+- [X] Change table size (scale).
 - [X] Zoom using touchpad scrolling.
 - [X] Right-click context menu for zooming and resetting zoom in the preview.
 - [ ] Add call sign on the card.

@@ -60,5 +60,6 @@
   "resize_msg": "The image does not have a 16:9 aspect ratio (widescreen).\nDo you want the program to automatically crop and resize it for a perfect fit?",
   "zoom_in": "Zoom In",
   "zoom_out": "Zoom Out",
-  "zoom_fit": "Fit to Window"
+  "zoom_fit": "Fit to Window",
+  "set_scale": "Table Scale"
 }

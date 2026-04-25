@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QDialog, QFormLayout, QComboBox, QLineEdit, QHBoxLayout, QPushButton, QFileDialog, QSpinBox, QColorDialog, QDialogButtonBox
+from PyQt6.QtWidgets import QDialog, QFormLayout, QComboBox, QLineEdit, QHBoxLayout, QPushButton, QFileDialog, QSpinBox, QDoubleSpinBox, QColorDialog, QDialogButtonBox
 from PyQt6.QtGui import QColor
 from core.i18n import tr, CURRENT_LANG
 
@@ -16,6 +16,7 @@ class SettingsDialog(QDialog):
         self.cmb_lang.addItem("English", "en")
         idx = self.cmb_lang.findData(self.config.get("lang", "default"))
         if idx >= 0: self.cmb_lang.setCurrentIndex(idx)
+        
         self.cmb_lang.currentIndexChanged.connect(self.refresh_combo_pos)
         layout.addRow(tr("set_lang"), self.cmb_lang)
         
@@ -33,6 +34,14 @@ class SettingsDialog(QDialog):
         self.cmb_pos = QComboBox()
         self.refresh_combo_pos()
         layout.addRow(tr("set_pos"), self.cmb_pos)
+        
+        self.spn_scale = QDoubleSpinBox()
+        self.spn_scale.setPrefix("x ")
+        self.spn_scale.setMinimum(0.5)  # Mínimo: 50% del tamaño original
+        self.spn_scale.setMaximum(3.0)  # Máximo: 300% del tamaño original
+        self.spn_scale.setSingleStep(0.1)  # Sube o baja de a 0.1 con las flechitas
+        self.spn_scale.setValue(self.config.get("table_scale", 1.0))
+        layout.addRow(tr("set_scale"), self.spn_scale)
         
         self.spn_opac = QSpinBox()
         self.spn_opac.setMaximum(100)
@@ -82,7 +91,12 @@ class SettingsDialog(QDialog):
         b.setStyleSheet(f"background-color: {hex_c}; color: {tc}; border: 1px solid #aaa; border-radius: 4px; padding: 4px;")
 
     def get_data(self) -> dict:
-        self.config.update({"lang": self.cmb_lang.currentData(), "indicativo": self.inp_call.text().strip().upper(), 
-                            "default_bg": self.inp_bg.text().strip(), "pos": self.cmb_pos.currentData(), 
-                            "opacity": self.spn_opac.value()})
+        self.config.update({
+            "lang": self.cmb_lang.currentData(), 
+            "indicativo": self.inp_call.text().strip().upper(), 
+            "default_bg": self.inp_bg.text().strip(), 
+            "pos": self.cmb_pos.currentData(), 
+            "opacity": self.spn_opac.value(),
+            "table_scale": self.spn_scale.value()
+        })
         return self.config
