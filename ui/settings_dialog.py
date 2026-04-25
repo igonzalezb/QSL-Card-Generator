@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QDialog, QFormLayout, QComboBox, QLineEdit, QHBoxLayout, QPushButton, QFileDialog, QSpinBox, QDoubleSpinBox, QColorDialog, QDialogButtonBox
+from PyQt6.QtWidgets import QDialog, QFormLayout, QComboBox, QLineEdit, QHBoxLayout, QPushButton, QFileDialog, QSpinBox, QDoubleSpinBox, QColorDialog, QDialogButtonBox, QCheckBox
 from PyQt6.QtGui import QColor
 from core.i18n import tr, CURRENT_LANG
 
@@ -30,6 +30,10 @@ class SettingsDialog(QDialog):
         bg_lay.addWidget(self.inp_bg)
         bg_lay.addWidget(btn_br)
         layout.addRow(tr("set_def_bg"), bg_lay)
+        
+        self.chk_comments = QCheckBox(tr("set_comments"))
+        self.chk_comments.setChecked(self.config.get("show_comments", True))
+        layout.addRow("", self.chk_comments)
         
         self.cmb_pos = QComboBox()
         self.refresh_combo_pos()
@@ -91,12 +95,13 @@ class SettingsDialog(QDialog):
         b.setStyleSheet(f"background-color: {hex_c}; color: {tc}; border: 1px solid #aaa; border-radius: 4px; padding: 4px;")
 
     def get_data(self) -> dict:
-        self.config.update({
-            "lang": self.cmb_lang.currentData(), 
-            "indicativo": self.inp_call.text().strip().upper(), 
-            "default_bg": self.inp_bg.text().strip(), 
-            "pos": self.cmb_pos.currentData(), 
-            "opacity": self.spn_opac.value(),
-            "table_scale": self.spn_scale.value()
-        })
-        return self.config
+            self.config.update({
+                "lang": self.cmb_lang.currentData(), 
+                "indicativo": self.inp_call.text().strip().upper(), 
+                "default_bg": self.inp_bg.text().strip(), 
+                "pos": self.cmb_pos.currentData(), 
+                "opacity": self.spn_opac.value(),
+                "table_scale": self.spn_scale.value(),
+                "show_comments": self.chk_comments.isChecked()
+            })
+            return self.config

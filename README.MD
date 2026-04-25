@@ -56,11 +56,13 @@ To create a standalone executable using PyInstaller:
 pip install pyinstaller
 python build.py
 ```
+
 ## ToDos
+
 - [X] Fix ADIF importer to handle edge cases and malformed files more gracefully.
 - [ ] Add default empty card template.
 - [X] Auto resize background image to fit the card dimensions.
-- [ ] Add comments to QSL card.
+- [X] Add comments to QSL card.
 - [X] Change table size (scale).
 - [X] Zoom using touchpad scrolling.
 - [X] Right-click context menu for zooming and resetting zoom in the preview.

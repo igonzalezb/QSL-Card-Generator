@@ -76,7 +76,7 @@ class QSLGeneratorApp(QMainWindow):
         self.updater.start()
 
     def setup_ui_elements(self):
-        self.table.setColumnCount(8)
+        self.table.setColumnCount(9)
         self.table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
         self.table.horizontalHeader().setStretchLastSection(True)
         self.table.setColumnWidth(0, 30)
@@ -221,7 +221,7 @@ class QSLGeneratorApp(QMainWindow):
 
         self.table.setItem(row, 0, checkbox)
 
-        for col in range(1, 8):
+        for col in range(1, 9):
             self.table.setItem(row, col, QTableWidgetItem(""))
 
         self.table.selectRow(row)
@@ -474,6 +474,12 @@ class QSLGeneratorApp(QMainWindow):
                     7,
                     QTableWidgetItem(qso.get("RST_SENT", ""))
                 )
+                coment = qso.get("COMMENT", qso.get("QSLMSG", ""))
+                self.table.setItem(
+                    row,
+                    8,
+                    QTableWidgetItem(coment)
+                )
 
             self.table.itemChanged.connect(
                 self.on_table_item_changed
@@ -514,7 +520,7 @@ class QSLGeneratorApp(QMainWindow):
                 self.table.item(row, col).text()
                 if self.table.item(row, col)
                 else ""
-                for col in range(1, 8)
+                for col in range(1, 9)
             ]
 
             try:
@@ -621,7 +627,7 @@ class QSLGeneratorApp(QMainWindow):
                     self.table.item(row, col).text()
                     if self.table.item(row, col)
                     else ""
-                    for col in range(1, 8)
+                    for col in range(1, 9)
                 ]
 
                 export_data.append({

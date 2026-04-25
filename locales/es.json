@@ -22,7 +22,8 @@
     "Banda",
     "Modo",
     "Frecuencia",
-    "RST"
+    "RST",
+    "Comentario"
   ],
   "set_title": "Configuración General",
   "set_lang": "Idioma (Language):",
@@ -61,5 +62,6 @@
   "zoom_in": "Acercar",
   "zoom_out": "Alejar",
   "zoom_fit": "Ajustar a la ventana",
-  "set_scale": "Escala de la Tabla"
+  "set_scale": "Escala de la Tabla",
+  "set_comments": "Mostrar Comentarios (Si existen)"
 }

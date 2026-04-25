@@ -22,7 +22,8 @@
     "Band",
     "Mode",
     "Freq",
-    "RST"
+    "RST",
+    "Comment"
   ],
   "set_title": "General Settings",
   "set_lang": "Language (Idioma):",
@@ -61,5 +62,6 @@
   "zoom_in": "Zoom In",
   "zoom_out": "Zoom Out",
   "zoom_fit": "Fit to Window",
-  "set_scale": "Table Scale"
+  "set_scale": "Table Scale",
+  "set_comments": "Show Comments (If Any)"
 }
