@@ -301,15 +301,28 @@ class QSLGeneratorApp(QMainWindow):
             self.on_selection_changed()
 
     def show_about(self):
-        message = (
-            f"<h2>{tr('title')}</h2>"
-            f"<p>Version: "
-            f"<strong>"
-            f"<a href=\"https://github.com/igonzalezb/QSL-Card-Generator\" "
-            f"style=\"color: #1E90FF;\">{APP_VERSION}</a>"
-            f"</strong></p>"
-            f"<p>Developed by: <strong>LU2EXV</strong></p>"
-        )
+        message = f"""
+        <div style="text-align: center;">
+            <h2 style="margin-bottom: 10px;">{tr('title')}</h2>
+
+            <p style="margin: 6px 0;">
+                <b>Developed by:</b> 
+                <a href="https://www.qrz.com/db/LU2EXV"
+                style="color: #1E90FF; text-decoration: none;">
+                    LU2EXV
+                </a>
+            </p>
+            
+            <p style="margin: 6px 0;">
+                <b>Version:</b>
+                <a href="https://github.com/igonzalezb/QSL-Card-Generator"
+                style="color: #1E90FF; text-decoration: none;">
+                    {APP_VERSION}
+                </a>
+            </p>
+            
+        </div>
+        """
 
         QMessageBox.about(self, tr("about"), message)
 
