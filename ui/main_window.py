@@ -2,6 +2,7 @@ import os
 import json
 import datetime
 import logging
+import tempfile
 
 from PyQt6.QtWidgets import (
     QMainWindow,
@@ -57,6 +58,7 @@ class QSLGeneratorApp(QMainWindow):
             "color_d_bg": "#f5f5f5",
             "color_d_txt": "#000000",
             "table_scale": 1.0,
+            "show_comments": True,
         }
 
         self.load_config()
@@ -66,11 +68,14 @@ class QSLGeneratorApp(QMainWindow):
         self.setup_ui_elements()
         self.apply_translations()
         self.connect_signals()
-
+          
         if self.config["default_bg"] and os.path.exists(self.config["default_bg"]):
             self.bg_image_path = self.config["default_bg"]
             self.lbl_bg.setText(os.path.basename(self.bg_image_path))
-
+        else:
+            self.bg_image_path = self.generate_default_bg()
+            self.lbl_bg.setText(tr("no_img"))
+        
         self.updater = UpdateChecker(APP_VERSION)
         self.updater.update_available.connect(self.show_update_dialog)
         self.updater.start()
@@ -163,22 +168,12 @@ class QSLGeneratorApp(QMainWindow):
             try:
                 with open(CONFIG_FILE, "r") as f:
                     self.config.update(json.load(f))
-
-                    legacy_mapping = {
-                        "Abajo - Centro": "bottom_center",
-                        "Abajo - Izquierda": "bottom_left",
-                        "Abajo - Derecha": "bottom_right",
-                        "Arriba - Centro": "top_center",
-                        "Arriba - Izquierda": "top_left",
-                        "Arriba - Derecha": "top_right",
-                        "Centro Absoluto": "center",
-                    }
-
-                    if self.config["pos"] in legacy_mapping:
-                        self.config["pos"] = legacy_mapping[self.config["pos"]]
-
+                    
             except Exception as e:
                 logger.error(f"Error loading config: {e}")
+        else:
+            logger.info("No config file found, using defaults.")
+            self.save_config()
 
     def save_config(self):
         try:
@@ -295,17 +290,13 @@ class QSLGeneratorApp(QMainWindow):
             init_i18n(self.config.get("lang", "default"))
 
             self.apply_translations()
-
-            if (
-                self.config["default_bg"]
-                and os.path.exists(self.config["default_bg"])
-                and not self.bg_image_path
-            ):
+            
+            if self.config["default_bg"] and os.path.exists(self.config["default_bg"]):
                 self.bg_image_path = self.config["default_bg"]
-
-                self.lbl_bg.setText(
-                    os.path.basename(self.bg_image_path)
-                )
+                self.lbl_bg.setText(os.path.basename(self.bg_image_path))
+            else:
+                self.bg_image_path = self.generate_default_bg()
+                self.lbl_bg.setText(tr("no_img"))
 
             self.on_selection_changed()
 
@@ -718,6 +709,7 @@ class QSLGeneratorApp(QMainWindow):
 
         if reply == QMessageBox.StandardButton.Yes:
             QDesktopServices.openUrl(QUrl(url))
+    
     def show_preview_menu(self, pos):
         if not self.current_qimage:
             return
@@ -744,3 +736,12 @@ class QSLGeneratorApp(QMainWindow):
         elif action == action_zoom_fit:
             self.zoom_factor = 1.0
             self.update_preview(force_render=False)
+            
+    def generate_default_bg(self):
+        img = Image.new('RGB', (1920, 1080), color="#D1D1D1")
+        
+        temp_dir = tempfile.gettempdir()
+        temp_path = os.path.join(temp_dir, "qsl_default_bg.png")
+        
+        img.save(temp_path, "PNG")
+        return temp_path
