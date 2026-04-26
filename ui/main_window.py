@@ -280,21 +280,27 @@ class QSLGeneratorApp(QMainWindow):
         self.update_preview(force_render=True)
 
     def show_settings(self):
+        old_default_path = self.config.get("default_bg", "")
+        
         dialog = SettingsDialog(self.config, self)
 
         if dialog.exec():
             self.config = dialog.get_data()
-
             self.save_config()
-
             init_i18n(self.config.get("lang", "default"))
-
             self.apply_translations()
+
+            new_default_path = self.config.get("default_bg", "")
+            #TODO: ver bien
+            if new_default_path != old_default_path:
+                if new_default_path and os.path.exists(new_default_path):
+                    self.bg_image_path = new_default_path
+                    self.lbl_bg.setText(os.path.basename(self.bg_image_path))
+                else:
+                    self.bg_image_path = self.generate_default_bg()
+                    self.lbl_bg.setText(tr("no_img"))
             
-            if self.config["default_bg"] and os.path.exists(self.config["default_bg"]):
-                self.bg_image_path = self.config["default_bg"]
-                self.lbl_bg.setText(os.path.basename(self.bg_image_path))
-            else:
+            elif not self.bg_image_path:
                 self.bg_image_path = self.generate_default_bg()
                 self.lbl_bg.setText(tr("no_img"))
 
@@ -751,10 +757,12 @@ class QSLGeneratorApp(QMainWindow):
             self.update_preview(force_render=False)
             
     def generate_default_bg(self):
-        img = Image.new('RGB', (1920, 1080), color="#D1D1D1")
-        
         temp_dir = tempfile.gettempdir()
         temp_path = os.path.join(temp_dir, "qsl_default_bg.png")
         
+        if os.path.exists(temp_path):
+            return temp_path
+        
+        img = Image.new('RGB', (1920, 1080), color="#D1D1D1")
         img.save(temp_path, "PNG")
         return temp_path
