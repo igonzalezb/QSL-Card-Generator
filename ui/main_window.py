@@ -83,9 +83,9 @@ class QSLGeneratorApp(QMainWindow):
     def setup_ui_elements(self):
         self.table.setColumnCount(9)
         self.table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+        self.table.horizontalHeader().setDefaultAlignment(Qt.AlignmentFlag.AlignCenter)
         self.table.horizontalHeader().setStretchLastSection(True)
         self.table.setColumnWidth(0, 30)
-
         self.table.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         self.table.customContextMenuRequested.connect(self.show_table_menu)
 
@@ -217,7 +217,9 @@ class QSLGeneratorApp(QMainWindow):
         self.table.setItem(row, 0, checkbox)
 
         for col in range(1, 9):
-            self.table.setItem(row, col, QTableWidgetItem(""))
+            item = QTableWidgetItem("")
+            item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+            self.table.setItem(row, col, item)
 
         self.table.selectRow(row)
 
@@ -291,7 +293,7 @@ class QSLGeneratorApp(QMainWindow):
             self.apply_translations()
 
             new_default_path = self.config.get("default_bg", "")
-            #TODO: ver bien
+            
             if new_default_path != old_default_path:
                 if new_default_path and os.path.exists(new_default_path):
                     self.bg_image_path = new_default_path
@@ -494,7 +496,9 @@ class QSLGeneratorApp(QMainWindow):
             self.table.itemChanged.connect(
                 self.on_table_item_changed
             )
-
+                        
+            self.table.resizeColumnsToContents()
+            
             if self.table.rowCount() > 0:
                 self.table.selectRow(0)
 
