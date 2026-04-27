@@ -3,7 +3,7 @@ import json
 import datetime
 import logging
 import tempfile
-
+from pathlib import Path
 from PyQt6.QtWidgets import (
     QMainWindow,
     QFileDialog,
@@ -29,7 +29,7 @@ from core.version import APP_VERSION
 from core.updater import UpdateChecker
 from core.utils import resource_path
 
-CONFIG_FILE = ".qsl_config.json"
+from core.utils import resource_path, CONFIG_FILE
 
 logger = logging.getLogger(__name__)
 

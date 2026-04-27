@@ -3,9 +3,10 @@ import logging
 from PyQt6.QtWidgets import QApplication
 from PyQt6.QtGui import QIcon
 from core.utils import resource_path
+from core.utils import LOG_FILE
 
 logging.basicConfig(
-    filename='.qsl_info.log',
+    filename=LOG_FILE,
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
