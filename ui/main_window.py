@@ -654,7 +654,7 @@ class QSLGeneratorApp(QMainWindow):
 
         self.progress_dialog = QProgressDialog(
             tr("exporting"),
-            tr("wait"),
+            tr("cancel"),
             0,
             len(export_data),
             self
@@ -680,13 +680,25 @@ class QSLGeneratorApp(QMainWindow):
         self.worker.finished_export.connect(
             self.export_finished
         )
-
+        
+        self.progress_dialog.canceled.connect(self.worker.cancel)
+        
         self.worker.start()
 
     def export_finished(self, processed, errors):
 
         self.progress_dialog.close()
-
+        
+        if self.worker and self.worker._is_cancelled:
+            msg = tr("msg_cancelled").replace("{n}", str(processed))
+            
+            QMessageBox.information(
+                self,
+                tr("res_title"),
+                msg
+            )
+            return
+        
         message = f"{processed} {tr('msg_done')}"
 
         if errors:

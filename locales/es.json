@@ -39,7 +39,7 @@
   "msg_done": "QSLs generadas y guardadas.",
   "btn_browse": "Buscar...",
   "exporting": "Generando QSLs...",
-  "wait": "Por favor espere...",
+  "cancel": "Cancelar",
   "err_call": "Falta el indicativo",
   "res_title": "Resumen de Exportación",
   "all": "Marcar Todos",
@@ -63,5 +63,6 @@
   "zoom_out": "Alejar",
   "zoom_fit": "Ajustar a la ventana",
   "set_scale": "Escala de la Tabla",
-  "set_comments": "Mostrar Comentarios (Si existen)"
+  "set_comments": "Mostrar Comentarios (Si existen)",
+  "msg_cancelled": "Exportación cancelada.\nSe llegaron a guardar {n} QSLs."
 }

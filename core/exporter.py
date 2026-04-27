@@ -16,6 +16,10 @@ class ExportWorker(QThread):
         self.config = config
         self.export_data = export_data
         self.out_dir = out_dir
+        self._is_cancelled = False
+    
+    def cancel(self):
+        self._is_cancelled = True
         
     def run(self):
         logger.info(f"Starting export of {len(self.export_data)} QSLs.")
@@ -23,9 +27,18 @@ class ExportWorker(QThread):
         try:
             base_img = Image.open(self.bg_path).convert("RGBA")
             for i, item in enumerate(self.export_data):
+                if self._is_cancelled:
+                    logger.info("Export cancelled by user.")
+                    break
                 try:
                     final_img, call = draw_qsl_core(base_img.copy(), self.config, item['data'])
-                    save_path = os.path.join(self.out_dir, f"QSL_{call.replace('/', '-')}_{item['row']}.png")
+                    base_filename = f"{item['row']}_QSL_{call.replace('/', '-')}"
+                    save_path = os.path.join(self.out_dir, f"{base_filename}.png")
+                    
+                    counter = 1
+                    while os.path.exists(save_path):
+                        save_path = os.path.join(self.out_dir, f"{base_filename}({counter}).png")
+                        counter += 1
                     final_img.save(save_path, "PNG")
                     processed += 1
                 except Exception as e:

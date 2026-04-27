@@ -39,7 +39,7 @@
   "msg_done": "QSLs generated and saved.",
   "btn_browse": "Browse...",
   "exporting": "Generating QSLs...",
-  "wait": "Please wait...",
+  "cancel": "Cancel",
   "err_call": "Missing callsign",
   "res_title": "Export Summary",
   "all": "Select All",
@@ -63,5 +63,6 @@
   "zoom_out": "Zoom Out",
   "zoom_fit": "Fit to Window",
   "set_scale": "Table Scale",
-  "set_comments": "Show Comments (If Any)"
+  "set_comments": "Show Comments (If Any)",
+  "msg_cancelled": "Export cancelled.\n{n} QSLs were saved."
 }
