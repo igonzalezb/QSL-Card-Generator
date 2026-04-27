@@ -14,3 +14,5 @@ qsl_errores.log
 /dist
 qsl_info.log
 /tests
+.qsl_config.json
+.qsl_info.log

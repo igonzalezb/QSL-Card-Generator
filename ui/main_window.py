@@ -29,7 +29,7 @@ from core.version import APP_VERSION
 from core.updater import UpdateChecker
 from core.utils import resource_path
 
-CONFIG_FILE = "qsl_config.json"
+CONFIG_FILE = ".qsl_config.json"
 
 logger = logging.getLogger(__name__)
 

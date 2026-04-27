@@ -5,7 +5,7 @@ from PyQt6.QtGui import QIcon
 from core.utils import resource_path
 
 logging.basicConfig(
-    filename='qsl_info.log',
+    filename='.qsl_info.log',
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
