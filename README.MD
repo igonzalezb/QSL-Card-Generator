@@ -1,9 +1,14 @@
-<h1 align="center">
+<h1 align="center" style="margin-bottom: -8px;">
   <img src="icon.svg" alt="icon" width="90" height="90"><br>
   QSL Card Generator
 </h1>
 
-<p align="center"> <img src="https://img.shields.io/badge/platforms-Linux%20%7C%20Windows-blue" alt="Platform">
+<p align="center" style="margin-top: 0;">
+  by LU2EXV
+</p>
+
+<p align="center"> 
+<img src="https://img.shields.io/badge/platforms-Linux%20%7C%20Windows-blue" alt="Platform">
 <img src="https://img.shields.io/github/v/release/igonzalezb/QSL-Card-Generator?label=version&color=green" alt="Latest Release">
 </p>
 
@@ -18,7 +23,7 @@ Prebuilt executables for Windows, Linux are available in the latest [GitHub Rele
 ## Features
 
 * **ADIF Import:** Load contacts directly from your favorite logging software.
-* **Live Preview:** See your QSL card updates in real time, including smooth mouse-wheel zoom.
+* **Live Preview:** See your QSL card updates in real time.
 * **Highly Customizable:**
 
   * Change table background and text colors.
@@ -57,22 +62,8 @@ To create a standalone executable using PyInstaller:
 
 ```bash
 pip install pyinstaller
-python build.py
+python3 build.py
 ```
-
-## ToDos
-
-- [X] Fix ADIF importer to handle edge cases and malformed files more gracefully.
-- [X] Add default empty card template.
-- [X] Auto resize background image to fit the card dimensions.
-- [X] Add comments to QSL card.
-- [X] Change table size (scale).
-- [X] Zoom using touchpad scrolling.
-- [X] Right-click context menu for zooming and resetting zoom in the preview.
-- [ ] Add call sign on the card.
-- [ ] Add options for setting zones, grid squares, and other QSO details on the card.
-- [ ] Add support for exporting QSL cards in various formats.
-- [X] Auto-size column widths based on content.
 
 ## Disclaimer
 
