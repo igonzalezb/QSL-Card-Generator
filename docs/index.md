@@ -1,123 +1,75 @@
+<h1 align="center" style="margin-bottom: -8px;">
+  <img src="icon.svg" alt="icon" width="90" height="90"><br>
+  QSL Card Generator
+</h1>
+
+<p align="center" style="margin-top: 0;">
+  by LU2EXV
+</p>
+
+<p align="center"> 
+<img src="https://img.shields.io/badge/platforms-Linux%20%7C%20Windows-blue" alt="Platform">
+<img src="https://img.shields.io/github/v/release/igonzalezb/QSL-Card-Generator?label=version&color=green" alt="Latest Release">
+</p>
+
+A desktop application for amateur radio operators designed to generate QSL cards in bulk from ADIF log files. Built with Python, PyQt6, and Pillow.
+
+![Screenshot](img/main_window.png)
+
+## Download
+
+Prebuilt executables for Windows, Linux are available in the latest [GitHub Releases](https://github.com/igonzalezb/QSL-Card-Generator/releases/latest)
+
+## Features
+
+* **ADIF Import:** Load contacts directly from your favorite logging software.
+* **Live Preview:** See your QSL card updates in real time.
+* **Highly Customizable:**
+
+  * Change table background and text colors.
+  * Adjust transparency for seamless blending with the background image.
+  * Choose from 7 predefined table positions (top, bottom, left, right, center, etc.).
+* **Manual Editing:** Edit contact data directly in the table, add new QSOs manually, or remove unwanted entries.
+* **Fast Batch Export:** Uses multithreaded background processing (`QThread`) to export hundreds of QSL cards quickly without freezing the UI.
+* **Multilingual:** Built-in support for English and Spanish, with automatic system language detection.
+* **Settings Persistence:** Saves your callsign, colors, and preferences for future sessions.
+
+## Project Structure
+
+```text
+QSL-Card-Generator/
+├── main.py                 # Application entry point
+├── qsl_design.ui           # Qt Designer UI file
+├── requirements.txt        # Project dependencies
+├── core/                   # Core logic
+│   ├── engine.py           # Image rendering engine (Pillow)
+│   ├── exporter.py         # Background processing threads
+│   └── i18n.py             # Internationalization system
+│   └── version.py          # Version information
+│   └── updater.py          # Update system
+│   └── utils.py            # Utility functions
+├── ui/                     # UI controllers
+│   ├── main_window.py      # Main window
+│   └── settings_dialog.py  # Settings dialog
+└── locales/                # Language files
+    ├── en.json
+    └── es.json
+```
+
+## Build Executable
+
+To create a standalone executable using PyInstaller:
+
+```bash
+pip install pyinstaller
+python3 build.py
+```
+
+## Disclaimer
+
+This is a personal project developed for the amateur radio community.  
+Feedback, suggestions, and contributions are always welcome!
+
 ---
-layout: default
----
 
-Text can be **bold**, _italic_, or ~~strikethrough~~.
-
-[Link to another page](./another-page.html).
-
-There should be whitespace between paragraphs.
-
-There should be whitespace between paragraphs. We recommend including a README, or a file with information about your project.
-
-# Header 1
-
-This is a normal paragraph following a header. GitHub is a code hosting platform for version control and collaboration. It lets you and others work together on projects from anywhere.
-
-## Header 2
-
-> This is a blockquote following a header.
->
-> When something is important enough, you do it even if the odds are not in your favor.
-
-### Header 3
-
-```js
-// Javascript code with syntax highlighting.
-var fun = function lang(l) {
-  dateformat.i18n = require('./lang/' + l)
-  return true;
-}
-```
-
-```ruby
-# Ruby code with syntax highlighting
-GitHubPages::Dependencies.gems.each do |gem, version|
-  s.add_dependency(gem, "= #{version}")
-end
-```
-
-#### Header 4
-
-*   This is an unordered list following a header.
-*   This is an unordered list following a header.
-*   This is an unordered list following a header.
-
-##### Header 5
-
-1.  This is an ordered list following a header.
-2.  This is an ordered list following a header.
-3.  This is an ordered list following a header.
-
-###### Header 6
-
-| head1        | head two          | three |
-|:-------------|:------------------|:------|
-| ok           | good swedish fish | nice  |
-| out of stock | good and plenty   | nice  |
-| ok           | good `oreos`      | hmm   |
-| ok           | good `zoute` drop | yumm  |
-
-### There's a horizontal rule below this.
-
-* * *
-
-### Here is an unordered list:
-
-*   Item foo
-*   Item bar
-*   Item baz
-*   Item zip
-
-### And an ordered list:
-
-1.  Item one
-1.  Item two
-1.  Item three
-1.  Item four
-
-### And a nested list:
-
-- level 1 item
-  - level 2 item
-  - level 2 item
-    - level 3 item
-    - level 3 item
-- level 1 item
-  - level 2 item
-  - level 2 item
-  - level 2 item
-- level 1 item
-  - level 2 item
-  - level 2 item
-- level 1 item
-
-### Small image
-
-![Octocat](https://github.githubassets.com/images/icons/emoji/octocat.png)
-
-### Large image
-
-![Branching](https://guides.github.com/activities/hello-world/branching.png)
-
-
-### Definition lists can be used with HTML syntax.
-
-<dl>
-<dt>Name</dt>
-<dd>Godzilla</dd>
-<dt>Born</dt>
-<dd>1952</dd>
-<dt>Birthplace</dt>
-<dd>Japan</dd>
-<dt>Color</dt>
-<dd>Green</dd>
-</dl>
-
-```
-Long, single-line code blocks should not wrap. They should horizontally scroll if they are too long. This line should be long enough to demonstrate this.
-```
-
-```
-The final element.
-```
+**73 and good DX!**
