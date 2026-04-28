@@ -1,5 +1,5 @@
 <h1 align="center" style="margin-bottom: -8px;">
-  <img src="icon.svg" alt="icon" width="90" height="90"><br>
+  <img src="https://raw.githubusercontent.com/igonzalezb/QSL-Card-Generator/refs/heads/main/icon.svg" alt="icon" width="90" height="90"><br>
   QSL Card Generator
 </h1>
 
@@ -14,7 +14,7 @@
 
 A desktop application for amateur radio operators designed to generate QSL cards in bulk from ADIF log files. Built with Python, PyQt6, and Pillow.
 
-![Screenshot](img/main_window.png)
+![img/main_window.png](https://github.com/igonzalezb/QSL-Card-Generator/blob/main/img/main_window.png)
 
 ## Download
 
