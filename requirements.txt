@@ -1,3 +1,4 @@
-PyQt6
+adif_io
 Pillow
-adif-io
+PyQt6
+pyqt6_sip
