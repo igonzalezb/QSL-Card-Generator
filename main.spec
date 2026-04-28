@@ -38,7 +38,7 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name=f'QSL_Generator_v{APP_VERSION}', 
+    name=f'QSL_Generator_{APP_VERSION}', 
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,

@@ -16,3 +16,7 @@ qsl_info.log
 /tests
 .qsl_config.json
 .qsl_info.log
+/docs/vendor
+docs/Gemfile.lock
+docs/.bundle
+docs/_site

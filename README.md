@@ -65,6 +65,18 @@ pip install pyinstaller
 python3 build.py
 ```
 
+## Debug Docs
+
+To run the Jekyll server for documentation development (from the `docs/` directory):
+
+```bash
+sudo apt-get install ruby-full build-essential zlib1g-dev # Install Ruby and dependencies
+gem install jekyll bundler # Install Jekyll and Bundler
+bundle config set --local path 'vendor/bundle' # Configure Bundler to install gems locally
+bundle install # Install Jekyll dependencies
+bundle exec jekyll serve # Start the Jekyll server
+```
+
 ## Disclaimer
 
 This is a personal project developed for the amateur radio community.  

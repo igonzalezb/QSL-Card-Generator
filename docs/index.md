@@ -1,76 +1,94 @@
-<h1 align="center" style="margin-bottom: -8px;">
-  <img src="https://raw.githubusercontent.com/igonzalezb/QSL-Card-Generator/refs/heads/main/icon.svg" alt="icon" width="90" height="90"><br>
-  QSL Card Generator
-</h1>
+<div class="lang-en">
 
-<p align="center" style="margin-top: 0;">
-  by LU2EXV
+<p>
+A desktop application for amateur radio operators designed to generate QSL cards in bulk from ADIF log files.
+Built with Python, PyQt6, and Pillow.
 </p>
-
-<p align="center"> 
-<img src="https://img.shields.io/badge/platforms-Linux%20%7C%20Windows-blue" alt="Platform">
-<img src="https://img.shields.io/github/v/release/igonzalezb/QSL-Card-Generator?label=version&color=green" alt="Latest Release">
+<p align="center">
+  <img src="https://raw.githubusercontent.com/igonzalezb/QSL-Card-Generator/refs/heads/main/img/main_window.png">
 </p>
+<h2>Features</h2>
 
-A desktop application for amateur radio operators designed to generate QSL cards in bulk from ADIF log files. Built with Python, PyQt6, and Pillow.
+<ul>
+  <li><strong>ADIF Import:</strong> Load contacts directly from your favorite logging software.</li>
 
-![main_window](https://raw.githubusercontent.com/igonzalezb/QSL-Card-Generator/refs/heads/main/img/main_window.png)
+  <li><strong>Live Preview:</strong> See your QSL card updates in real time.</li>
 
+  <li>
+    <strong>Highly Customizable:</strong>
+    <ul>
+      <li>Change table background and text colors.</li>
+      <li>Adjust transparency for seamless blending with the background image.</li>
+      <li>Choose from 7 predefined table positions (top, bottom, left, right, center, etc.).</li>
+    </ul>
+  </li>
 
-## Download
+  <li><strong>Manual Editing:</strong> Edit contact data directly in the table.</li>
 
-Prebuilt executables for Windows, Linux are available in the latest [GitHub Releases](https://github.com/igonzalezb/QSL-Card-Generator/releases/latest)
+  <li><strong>Fast Batch Export:</strong> Uses multithreaded background processing (<code>QThread</code>).</li>
 
-## Features
+  <li><strong>Multilingual:</strong> English and Spanish support with automatic detection.</li>
 
-* **ADIF Import:** Load contacts directly from your favorite logging software.
-* **Live Preview:** See your QSL card updates in real time.
-* **Highly Customizable:**
+  <li><strong>Settings Persistence:</strong> Saves your preferences for future sessions.</li>
+</ul>
 
-  * Change table background and text colors.
-  * Adjust transparency for seamless blending with the background image.
-  * Choose from 7 predefined table positions (top, bottom, left, right, center, etc.).
-* **Manual Editing:** Edit contact data directly in the table, add new QSOs manually, or remove unwanted entries.
-* **Fast Batch Export:** Uses multithreaded background processing (`QThread`) to export hundreds of QSL cards quickly without freezing the UI.
-* **Multilingual:** Built-in support for English and Spanish, with automatic system language detection.
-* **Settings Persistence:** Saves your callsign, colors, and preferences for future sessions.
+<h2>Disclaimer</h2>
 
-## Project Structure
-
-```text
-QSL-Card-Generator/
-├── main.py                 # Application entry point
-├── qsl_design.ui           # Qt Designer UI file
-├── requirements.txt        # Project dependencies
-├── core/                   # Core logic
-│   ├── engine.py           # Image rendering engine (Pillow)
-│   ├── exporter.py         # Background processing threads
-│   └── i18n.py             # Internationalization system
-│   └── version.py          # Version information
-│   └── updater.py          # Update system
-│   └── utils.py            # Utility functions
-├── ui/                     # UI controllers
-│   ├── main_window.py      # Main window
-│   └── settings_dialog.py  # Settings dialog
-└── locales/                # Language files
-    ├── en.json
-    └── es.json
-```
-
-## Build Executable
-
-To create a standalone executable using PyInstaller:
-
-```bash
-pip install pyinstaller
-python3 build.py
-```
-
-## Disclaimer
-
-This is a personal project developed for the amateur radio community.  
+<p>
+This is a personal project developed for the amateur radio community.
 Feedback, suggestions, and contributions are always welcome!
+</p>
 
----
+<hr>
 
-**73 and good DX!**
+<p><strong>73 and good DX!</strong></p>
+
+</div>
+
+<div class="lang-es">
+
+<p>
+Una aplicación de escritorio para radioaficionados diseñada para generar tarjetas QSL en masa a partir de archivos de registro ADIF.
+Construida con Python, PyQt6 y Pillow.
+</p>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/igonzalezb/QSL-Card-Generator/refs/heads/main/img/main_window.png">
+</p>
+<h2>Características</h2>
+
+<ul>
+  <li><strong>Importación ADIF:</strong> Carga contactos directamente desde tu software favorito.</li>
+
+  <li><strong>Vista Previa en Vivo:</strong> Ve los cambios en tiempo real.</li>
+
+  <li>
+    <strong>Altamente Personalizable:</strong>
+    <ul>
+      <li>Cambia colores de fondo y texto.</li>
+      <li>Ajusta la transparencia.</li>
+      <li>Elige entre 7 posiciones predefinidas.</li>
+    </ul>
+  </li>
+
+  <li><strong>Edición Manual:</strong> Edita contactos directamente en la tabla.</li>
+
+  <li><strong>Exportación Rápida:</strong> Usa procesamiento multihilo (<code>QThread</code>).</li>
+
+  <li><strong>Multilingüe:</strong> Soporte para inglés y español.</li>
+
+  <li><strong>Persistencia:</strong> Guarda preferencias automáticamente.</li>
+</ul>
+
+<h2>Disclaimer</h2>
+
+<p>
+Este es un proyecto personal desarrollado para la comunidad de radioaficionados.
+¡Las sugerencias y contribuciones son bienvenidas!
+</p>
+
+<hr>
+
+<p><strong>73 y buen DX!</strong></p>
+
+</div>
+
