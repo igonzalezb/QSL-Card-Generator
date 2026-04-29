@@ -2,7 +2,6 @@ import os
 import shutil
 import subprocess
 
-
 def clean_temp_files():
     folders_to_remove = ['build', '__pycache__']
 

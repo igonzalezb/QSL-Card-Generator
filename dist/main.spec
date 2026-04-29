@@ -2,20 +2,22 @@
 import os
 import sys
 
-sys.path.append(os.path.abspath(os.getcwd()))
+project_root = os.path.abspath(os.path.join(SPECPATH, '..'))
+
+sys.path.append(project_root)
 from core.version import APP_VERSION
 
 block_cipher = None
 
 added_files = [
-    ('../ui/qsl_design.ui', '.'),
-    ('../locales/', 'locales/'),
-    ('../icon.svg', '.')
+    (os.path.join(project_root, 'ui/qsl_design.ui'), 'ui'), 
+    (os.path.join(project_root, 'locales'), 'locales'),
+    (os.path.join(project_root, 'icon.svg'), '.')
 ]
 
 a = Analysis(
-    ['main.py'],
-    pathex=[],
+    [os.path.join(project_root, 'main.py')],
+    pathex=[project_root],                   
     binaries=[],
     datas=added_files,
     hiddenimports=[],
@@ -46,5 +48,5 @@ exe = EXE(
     upx_exclude=[],
     runtime_tmpdir=None,
     console=False, 
-    icon=['icon.ico'], 
+    icon=[os.path.join(project_root, 'icon.ico')], # También actualizamos el ícono
 )
