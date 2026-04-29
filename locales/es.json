@@ -64,5 +64,6 @@
   "zoom_fit": "Ajustar a la ventana",
   "set_scale": "Escala de la Tabla",
   "set_comments": "Mostrar Comentarios (Si existen)",
-  "msg_cancelled": "Exportación cancelada.\nSe llegaron a guardar {n} QSLs."
+  "msg_cancelled": "Exportación cancelada.\nSe llegaron a guardar {n} QSLs.",
+  "set_threads": "Hilos de exportación:"
 }

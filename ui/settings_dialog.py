@@ -1,6 +1,7 @@
 from PyQt6.QtWidgets import QDialog, QFormLayout, QComboBox, QLineEdit, QHBoxLayout, QPushButton, QFileDialog, QSpinBox, QDoubleSpinBox, QColorDialog, QDialogButtonBox, QCheckBox
 from PyQt6.QtGui import QColor
 from core.i18n import tr, CURRENT_LANG
+import os
 
 class SettingsDialog(QDialog):
     def __init__(self, config: dict, parent=None):
@@ -48,6 +49,13 @@ class SettingsDialog(QDialog):
         self.spn_opac.setValue(self.config.get("opacity", 85))
         layout.addRow(tr("set_opac"), self.spn_opac)
         
+        self.spin_threads = QSpinBox()
+        cores = os.cpu_count() or 1
+        self.spin_threads.setRange(1, cores)
+        self.spin_threads.setValue(self.config.get("threads", 1))
+        layout.addRow(tr("set_threads"), self.spin_threads)
+        
+        
         c_lay = QHBoxLayout()
         for k, label in [("color_h_bg", "H-BG"), ("color_h_txt", "H-TX"), ("color_d_bg", "D-BG"), ("color_d_txt", "D-TX")]:
             b = QPushButton(label); self.update_btn_color(b, self.config[k])
@@ -58,7 +66,7 @@ class SettingsDialog(QDialog):
         self.chk_comments = QCheckBox()
         self.chk_comments.setChecked(self.config.get("show_comments", True))
         layout.addRow(tr("set_comments"), self.chk_comments)
-        
+                
         self.bb = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel)
         self.bb.accepted.connect(self.accept); self.bb.rejected.connect(self.reject)
         layout.addWidget(self.bb)
@@ -95,7 +103,8 @@ class SettingsDialog(QDialog):
 
     def get_data(self) -> dict:
             self.config.update({
-                "lang": self.cmb_lang.currentData(), 
+                "lang": self.cmb_lang.currentData(),
+                "threads": self.spin_threads.value(), 
                 "callsign": self.inp_call.text().strip().upper(), 
                 "default_bg": self.inp_bg.text().strip(), 
                 "pos": self.cmb_pos.currentData(), 

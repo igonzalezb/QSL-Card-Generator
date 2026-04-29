@@ -51,6 +51,7 @@ class QSLGeneratorApp(QMainWindow):
             "lang": "default",
             "callsign": "LU1ABC",
             "default_bg": "",
+            "threads": 1,
             "pos": "bottom_center",
             "opacity": 85,
             "color_h_bg": "#4a4a4a",
