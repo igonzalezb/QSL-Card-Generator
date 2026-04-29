@@ -19,7 +19,7 @@ PYTHON_BIN=$(which python3)
 # Prepare internal structure and copy source code
 mkdir -p AppDir/usr/bin
 mkdir -p AppDir/usr/share/qsl-generator
-cp -r core ui docs locales resources *.py *.ui AppDir/usr/share/qsl-generator/ 2>/dev/null
+cp -r core ui docs locales resources *.py *.ui *.svg *.png *.ico AppDir/usr/share/qsl-generator/ 2>/dev/null
 
 # Create the internal launcher
 cat << 'EOF' > AppDir/usr/bin/qsl-generator
