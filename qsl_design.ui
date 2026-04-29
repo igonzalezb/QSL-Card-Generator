@@ -73,7 +73,7 @@
         <item>
          <spacer name="horizontalSpacer">
           <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+           <enum>Qt::Orientation::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -127,7 +127,7 @@
           <string>Select a contact...</string>
          </property>
          <property name="alignment">
-          <set>Qt::AlignCenter</set>
+          <set>Qt::AlignmentFlag::AlignCenter</set>
          </property>
         </widget>
        </item>
@@ -142,7 +142,7 @@
      <x>0</x>
      <y>0</y>
      <width>1100</width>
-     <height>22</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuArchivo">
@@ -161,6 +161,7 @@
     <property name="title">
      <string>Help</string>
     </property>
+    <addaction name="actionShowLogs"/>
     <addaction name="actionAcerca_de"/>
    </widget>
    <addaction name="menuArchivo"/>
@@ -180,6 +181,11 @@
   <action name="actionAcerca_de">
    <property name="text">
     <string>About...</string>
+   </property>
+  </action>
+  <action name="actionShowLogs">
+   <property name="text">
+    <string>Show Logs</string>
    </property>
   </action>
  </widget>

@@ -65,5 +65,6 @@
   "set_scale": "Table Scale",
   "set_comments": "Show Comments (If Any)",
   "msg_cancelled": "Export cancelled.\n{n} QSLs were saved.",
-  "set_threads": "Export Threads:"
+  "set_threads": "Export Threads:",
+  "show_logs": "Show Logs"
 }

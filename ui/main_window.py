@@ -29,7 +29,7 @@ from core.version import APP_VERSION
 from core.updater import UpdateChecker
 from core.utils import resource_path
 
-from core.utils import resource_path, CONFIG_FILE
+from core.utils import resource_path, CONFIG_FILE, LOG_FILE
 
 logger = logging.getLogger(__name__)
 
@@ -111,7 +111,7 @@ class QSLGeneratorApp(QMainWindow):
         self.menuArchivo.setTitle(tr("file"))
         self.menuHerramientas.setTitle(tr("tools"))
         self.menuAyuda.setTitle(tr("help"))
-
+        self.actionShowLogs.setText(tr("show_logs"))
         self.actionSalir.setText(tr("exit"))
         self.actionConfiguracion.setText(tr("settings"))
         self.actionAcerca_de.setText(tr("about"))
@@ -143,7 +143,7 @@ class QSLGeneratorApp(QMainWindow):
         self.btn_bg.clicked.connect(self.load_background)
         self.btn_adif.clicked.connect(self.load_adif)
         self.btn_export.clicked.connect(self.start_export)
-
+        self.actionShowLogs.triggered.connect(self.open_logs)
         self.actionSalir.triggered.connect(self.close)
         self.actionConfiguracion.triggered.connect(self.show_settings)
         self.actionAcerca_de.triggered.connect(self.show_about)
@@ -772,7 +772,14 @@ class QSLGeneratorApp(QMainWindow):
         elif action == action_zoom_fit:
             self.zoom_factor = 1.0
             self.update_preview(force_render=False)
-            
+    
+    def open_logs(self):
+        if os.path.exists(LOG_FILE):
+            url = QUrl.fromLocalFile(LOG_FILE)
+            QDesktopServices.openUrl(url)
+        else:
+            QMessageBox.information(self, tr("msg_warn"), "El archivo de log aún no existe.")        
+    
     def generate_default_bg(self):
         temp_dir = tempfile.gettempdir()
         temp_path = os.path.join(temp_dir, "qsl_default_bg.png")
