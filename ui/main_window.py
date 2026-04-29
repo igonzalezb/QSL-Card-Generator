@@ -39,7 +39,7 @@ class QSLGeneratorApp(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        ui_path = resource_path("qsl_design.ui")
+        ui_path = resource_path("ui/qsl_design.ui")
         uic.loadUi(ui_path, self)
 
         self.bg_image_path = None
@@ -767,7 +767,7 @@ class QSLGeneratorApp(QMainWindow):
             url = QUrl.fromLocalFile(LOG_FILE)
             QDesktopServices.openUrl(url)
         else:
-            QMessageBox.information(self, tr("msg_warn"), "El archivo de log aún no existe.")        
+            QMessageBox.information(self, tr("msg_warn"), "Log file not found.")        
     
     def generate_default_bg(self):
         temp_dir = tempfile.gettempdir()

@@ -11,7 +11,6 @@ qsl_config.json
 qsl_errores.log
 /.vscode
 /build
-/dist
 qsl_info.log
 /tests
 .qsl_config.json
@@ -20,3 +19,4 @@ qsl_info.log
 docs/Gemfile.lock
 docs/.bundle
 docs/_site
+/AppDir

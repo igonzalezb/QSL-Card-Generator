@@ -5,7 +5,7 @@ A desktop application for amateur radio operators designed to generate QSL cards
 Built with Python, PyQt6, and Pillow.
 </p>
 <p align="center">
-  <img src="https://raw.githubusercontent.com/igonzalezb/QSL-Card-Generator/refs/heads/main/img/main_window.png">
+  <img src="main_window.png">
 </p>
 <h2>Features</h2>
 
@@ -52,7 +52,7 @@ Una aplicación de escritorio para radioaficionados diseñada para generar tarje
 Construida con Python, PyQt6 y Pillow.
 </p>
 <p align="center">
-  <img src="https://raw.githubusercontent.com/igonzalezb/QSL-Card-Generator/refs/heads/main/img/main_window.png">
+  <img src="main_window.png">
 </p>
 <h2>Características</h2>
 

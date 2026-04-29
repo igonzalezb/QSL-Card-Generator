@@ -14,10 +14,10 @@
         document.querySelectorAll(".lang-en").forEach(e => e.style.display = "none");
 
         const btnWinText = document.getElementById("btn-win-text");
-        if (btnWinText) btnWinText.textContent = "Descargar (Windows)";
+        if (btnWinText) btnWinText.textContent = "Descargar (.exe)";
 
         const btnLinuxText = document.getElementById("btn-linux-text");
-        if (btnLinuxText) btnLinuxText.textContent = "Descargar (Linux)";
+        if (btnLinuxText) btnLinuxText.textContent = "Descargar (AppImage)";
 
         const btnGithubText = document.getElementById("btn-github-text");
         if (btnGithubText) btnGithubText.textContent = "Ver en GitHub";
@@ -103,14 +103,15 @@
       </span>
 
       <span id="btn-win-text">
-        Download (Windows)
+        Download (.exe)
       </span>
 
     </a>
 
     <!-- Linux -->
     <a id="btn-linux"
-      href="https://github.com/igonzalezb/QSL-Card-Generator/releases/latest/download/QSL_Generator_linux" class="btn">
+      href="https://github.com/igonzalezb/QSL-Card-Generator/releases/latest/download/QSL_Card_Generator-x86_64.AppImage"
+      class="btn">
 
       <span class="btn-icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -121,7 +122,7 @@
       </span>
 
       <span id="btn-linux-text">
-        Download (Linux)
+        Download (AppImage)
       </span>
 
     </a>
