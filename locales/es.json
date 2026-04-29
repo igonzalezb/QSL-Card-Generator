@@ -66,5 +66,6 @@
   "set_comments": "Mostrar Comentarios (Si existen)",
   "msg_cancelled": "Exportación cancelada.\nSe llegaron a guardar {n} QSLs.",
   "set_threads": "Hilos de exportación:",
-  "show_logs": "Ver Registros (Logs)"
+  "show_logs": "Ver Registros (Logs)",
+  "time": "Tiempo"
 }

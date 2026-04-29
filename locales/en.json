@@ -66,5 +66,6 @@
   "set_comments": "Show Comments (If Any)",
   "msg_cancelled": "Export cancelled.\n{n} QSLs were saved.",
   "set_threads": "Export Threads:",
-  "show_logs": "Show Logs"
+  "show_logs": "Show Logs",
+  "time": "Time"
 }

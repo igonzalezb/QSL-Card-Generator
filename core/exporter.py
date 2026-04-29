@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 class ExportWorker(QThread):
     progress = pyqtSignal(int)
-    finished_export = pyqtSignal(int, list)
+    finished_export = pyqtSignal(int, list, bool)
     
     def __init__(self, bg_path: str, config: dict, export_data: list, out_dir: str):
         super().__init__()
@@ -65,4 +65,4 @@ class ExportWorker(QThread):
                 
                 self.progress.emit(processed + len(errors))
 
-        self.finished_export.emit(processed, errors)
+        self.finished_export.emit(processed, errors, self._is_cancelled)

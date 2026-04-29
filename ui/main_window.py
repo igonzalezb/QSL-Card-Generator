@@ -2,6 +2,7 @@ import os
 import json
 import datetime
 import logging
+import time
 import tempfile
 from pathlib import Path
 from PyQt6.QtWidgets import (
@@ -660,7 +661,7 @@ class QSLGeneratorApp(QMainWindow):
             len(export_data),
             self
         )
-
+        self.progress_dialog.setWindowTitle(tr("title"))
         self.progress_dialog.setWindowModality(
             Qt.WindowModality.WindowModal
         )
@@ -684,44 +685,32 @@ class QSLGeneratorApp(QMainWindow):
         
         self.progress_dialog.canceled.connect(self.worker.cancel)
         
+        self.export_start_time = time.time()
+        
         self.worker.start()
 
-    def export_finished(self, processed, errors):
-
+    def export_finished(self, processed, errors, was_cancelled):
         self.progress_dialog.close()
         
-        if self.worker and self.worker._is_cancelled:
+        elapsed_time = time.time() - self.export_start_time
+        safe_time = max(elapsed_time, 0.001) 
+        time_str = f"{elapsed_time:.2f} s"
+        
+        self.worker = None 
+        
+        if was_cancelled:
             msg = tr("msg_cancelled").replace("{n}", str(processed))
-            
-            QMessageBox.information(
-                self,
-                tr("res_title"),
-                msg
-            )
+            msg += f"\n\n{tr('time')}: {time_str}"
+            QMessageBox.information(self, tr("res_title"), msg)
             return
         
-        message = f"{processed} {tr('msg_done')}"
-
         if errors:
-
-            message += (
-                "\n\nErrors:\n"
-                + "\n".join(errors[:5])
-            )
-
-            QMessageBox.warning(
-                self,
-                tr("res_title"),
-                message
-            )
-
+            message = f"{processed} {tr('msg_done')}"
+            message += ("\n\nErrors:\n" + "\n".join(errors[:5]))
+            QMessageBox.warning(self, tr("res_title"), message)
         else:
-
-            QMessageBox.information(
-                self,
-                tr("msg_success"),
-                message
-            )
+            msg = tr("msg_done") + f"\n\n{tr('time')}: {time_str}"
+            QMessageBox.information(self, tr("msg_success"), msg)
 
     def show_update_dialog(self, version, url):
         """
