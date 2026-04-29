@@ -8,9 +8,9 @@ from core.version import APP_VERSION
 block_cipher = None
 
 added_files = [
-    ('qsl_design.ui', '.'),
-    ('locales/', 'locales/'),
-    ('icon.svg', '.')
+    ('../ui/qsl_design.ui', '.'),
+    ('../locales/', 'locales/'),
+    ('../icon.svg', '.')
 ]
 
 a = Analysis(
@@ -38,7 +38,7 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name=f'QSL_Generator_{APP_VERSION}', 
+    name=f'QSL_Generator_windows', 
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,

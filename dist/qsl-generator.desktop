@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=QSL Card Generator
+Exec=qsl-generator
+Icon=icon
+Categories=Utility;HamRadio;
+Comment=QSL card generator for radio amateurs.
+Comment[es]=Generador de tarjetas QSL para radioaficionados.
+Terminal=false

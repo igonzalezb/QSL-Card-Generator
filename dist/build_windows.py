@@ -31,7 +31,7 @@ if __name__ == "__main__":
     if process.returncode == 0:
         print("Build completed successfully! Cleaning temporary files...")
         clean_temp_files()
-        print("Done! Your packaged executable is available in the 'dist/' folder.")
+        print("Done!")
     else:
         print("An error occurred during the PyInstaller build process.")
 

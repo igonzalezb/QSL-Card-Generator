@@ -4,6 +4,6 @@ plugins:
 
 title: QSL Card Generator
 description: by LU2EXV
-logo: https://raw.githubusercontent.com/igonzalezb/QSL-Card-Generator/refs/heads/main/icon.svg
+logo: favicon.svg
 show_downloads: true
-image: "/social-preview.png"
+image: social-preview.png

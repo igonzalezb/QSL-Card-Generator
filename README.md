@@ -14,7 +14,7 @@
 
 A desktop application for amateur radio operators designed to generate QSL cards in bulk from ADIF log files. Built with Python, PyQt6, and Pillow.
 
-![Screenshot](img/main_window.png)
+![Screenshot](docs/main_window.png)
 
 ## Download
 
@@ -51,18 +51,31 @@ QSL-Card-Generator/
 ├── ui/                     # UI controllers
 │   ├── main_window.py      # Main window
 │   └── settings_dialog.py  # Settings dialog
-└── locales/                # Language files
-    ├── en.json
-    └── es.json
+├── locales/                # Language files
+│    ├── en.json
+│    └── es.json
+└── dist/                    # Build scripts and output
+    ├── build_windows.py     # Windows build script
+    └── build_appimage.py      # Linux build script
 ```
 
 ## Build Executable
+
+### Windows
 
 To create a standalone executable using PyInstaller:
 
 ```bash
 pip install pyinstaller
-python3 build.py
+python3 ./dist/build_windows.py
+```
+
+### Linux
+
+To create AppImage for Linux:
+
+```bash
+./dist/build_appimage.sh
 ```
 
 ## Debug Docs

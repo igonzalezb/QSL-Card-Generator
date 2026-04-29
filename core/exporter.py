@@ -24,7 +24,6 @@ class ExportWorker(QThread):
         self._is_cancelled = True
         
     def process_single_qsl(self, item, base_img_path):
-        """Función interna que procesa una sola tarjeta"""
         if self._is_cancelled:
             return None
         
@@ -42,10 +41,10 @@ class ExportWorker(QThread):
                 final_img.save(save_path, "PNG")
                 return True
         except Exception as e:
-            return f"Fila {item['row'] + 1}: {str(e)}"
+            return f"Row {item['row'] + 1}: {str(e)}"
 
     def run(self):
-        logger.info(f"Iniciando exportación de {len(self.export_data)} QSLs con {self.num_threads} hilos.")
+        logger.info(f"Starting export of {len(self.export_data)} QSLs with {self.num_threads} threads.")
         processed = 0
         errors = []
         
