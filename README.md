@@ -14,7 +14,7 @@
 
 A desktop application for amateur radio operators designed to generate QSL cards in bulk from ADIF log files. Built with Python, PyQt6, and Pillow.
 
-![Screenshot](docs/main_window.png)
+![Screenshot](docs/main_window_eng.png)
 
 ## Download
 
