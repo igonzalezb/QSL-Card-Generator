@@ -1,5 +1,19 @@
 #!/bin/bash
 
+APP_VERSION=$(grep "APP_VERSION" core/version.py | awk -F'=' '{print $2}' | tr -d ' "' | tr -d "'")
+
+echo "================================================"
+echo "📦 Detected version: $APP_VERSION"
+echo "================================================"
+read -p "Is this the correct version for compilation? (y/n): " confirm
+
+if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
+    echo "❌ Compilation cancelled. Please update core/version.py and try again!"
+    exit 1
+fi
+echo "✅ Version confirmed. Starting compilation..."
+echo ""
+
 # Clean up previous versions (in root and dist)
 rm -rf AppDir
 rm -f *.AppImage
@@ -19,7 +33,11 @@ PYTHON_BIN=$(which python3)
 # Prepare internal structure and copy source code
 mkdir -p AppDir/usr/bin
 mkdir -p AppDir/usr/share/qsl-generator
+mkdir -p AppDir/usr/share/applications
+mkdir -p AppDir/usr/share/metainfo
 cp -r core ui docs locales resources *.py *.ui *.svg *.png *.ico AppDir/usr/share/qsl-generator/ 2>/dev/null
+cp io.github.igonzalezb.qsl-generator.appdata.xml AppDir/usr/share/metainfo/
+cp qsl-generator.desktop AppDir/usr/share/applications/
 
 # Create the internal launcher
 cat << 'EOF' > AppDir/usr/bin/qsl-generator

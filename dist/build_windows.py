@@ -1,6 +1,23 @@
 import os
+import sys
 import shutil
 import subprocess
+
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(project_root)
+from core.version import APP_VERSION
+
+print("================================================")
+print(f"📦 Detected version: {APP_VERSION}")
+print("================================================")
+
+confirm = input("Is this the correct version for compilation? (y/n): ").strip().lower()
+
+if confirm != 'y':
+    print("❌ Compilation cancelled. Please update core/version.py and try again!")
+    sys.exit(1) # Cierra el script sin compilar
+
+print("✅ Version confirmed. Starting PyInstaller...\n")
 
 def clean_temp_files():
     folders_to_remove = ['build', '__pycache__']
