@@ -1,3 +1,4 @@
+from __future__ import annotations
 import logging
 from PIL import Image, ImageDraw, ImageFont, ImageColor
 
