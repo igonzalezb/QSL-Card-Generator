@@ -52,7 +52,10 @@ cat << 'EOF' > AppDir/usr/bin/qsl-generator
 #!/bin/bash
 HERE="$(dirname "$(readlink -f "${0}")")"
 export PYTHONPATH="$HERE/../share/qsl-generator:$PYTHONPATH"
-exec python3 "$HERE/../share/qsl-generator/main.py" "$@"
+
+# Usamos la ruta absoluta al Python empaquetado ($HERE/python3) 
+# en lugar de confiar en el entorno (python3) para que Firejail no lo rompa
+exec "$HERE/python3" "$HERE/../share/qsl-generator/main.py" "$@"
 EOF
 chmod +x AppDir/usr/bin/qsl-generator
 
