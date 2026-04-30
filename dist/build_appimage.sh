@@ -18,12 +18,17 @@ echo ""
 rm -rf AppDir
 rm -f *.AppImage
 rm -f dist/*.AppImage
-rm -f linuxdeploy-plugin-python-x86_64.AppImage linuxdeploy-x86_64.AppImage
+rm -f linuxdeploy*.AppImage
+rm -f appdir-lint.sh
 
 # Download tools
 wget -nc https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
 wget -nc https://github.com/niess/linuxdeploy-plugin-python/releases/download/continuous/linuxdeploy-plugin-python-x86_64.AppImage
+wget -nc https://raw.githubusercontent.com/AppImageCommunity/pkg2appimage/refs/heads/master/appdir-lint.sh
+wget -nc https://raw.githubusercontent.com/AppImageCommunity/pkg2appimage/refs/heads/master/excludelist
+
 chmod +x linuxdeploy*.AppImage
+chmod +x appdir-lint.sh
 
 # Python configuration
 export PYTHON_VERSION=3.10
@@ -35,8 +40,11 @@ mkdir -p AppDir/usr/bin
 mkdir -p AppDir/usr/share/qsl-generator
 mkdir -p AppDir/usr/share/applications
 mkdir -p AppDir/usr/share/metainfo
+mkdir -p AppDir/usr/share/appdata
+
 cp -r core ui docs locales resources *.py *.ui *.svg *.png *.ico AppDir/usr/share/qsl-generator/ 2>/dev/null
-cp io.github.igonzalezb.qsl-generator.appdata.xml AppDir/usr/share/metainfo/
+cp io.github.igonzalezb.qsl-generator.appdata.xml AppDir/usr/share/metainfo/qsl-generator.appdata.xml
+cp io.github.igonzalezb.qsl-generator.appdata.xml AppDir/usr/share/appdata/qsl-generator.appdata.xml
 cp qsl-generator.desktop AppDir/usr/share/applications/
 
 # Create the internal launcher
@@ -53,25 +61,65 @@ chmod +x AppDir/usr/bin/qsl-generator
     --plugin python \
     --executable "$PYTHON_BIN" \
     --desktop-file dist/qsl-generator.desktop \
-    --icon-file icon.svg \
+    --icon-file icon.png \
     --output appimage
-
-# Move result to DIST and Cleanup
 echo "------------------------------------------------"
+echo "🔍 STARTING OFFICIAL QUALITY CHECKS..."
+echo "------------------------------------------------"
+
+# Find the generated file
 GENERATED_FILE=$(ls *.AppImage 2>/dev/null | grep -v "linuxdeploy")
 
 if [ -f "$GENERATED_FILE" ]; then
-    echo "✅ AppImage generated: $GENERATED_FILE"
     
+    # CHECK 1: Validate .desktop file
+    echo "▶️ Running desktop-file-validate..."
+    if command -v desktop-file-validate >/dev/null 2>&1; then
+        # Look for it inside the AppDir that linuxdeploy just built
+        desktop_file=$(find AppDir -name "*.desktop" | head -n 1)
+        if [ -n "$desktop_file" ]; then
+            desktop-file-validate "$desktop_file"
+            if [ $? -eq 0 ]; then
+                echo "  ✅ Valid .desktop file"
+            else
+                echo "  ❌ ERROR: The .desktop file has errors. Please check it."
+                exit 1
+            fi
+        else
+            echo "  ❌ ERROR: No .desktop file found in AppDir."
+            exit 1
+        fi
+    else
+         echo "  ⚠️ 'desktop-file-validate' is not installed. Skipping test. (Install with: sudo apt install desktop-file-utils)"
+    fi
+
+    # CHECK 2: Run the official AppDir Linter
+    echo "▶️ Running appdir-lint.sh..."
+    ./appdir-lint.sh AppDir/
+    LINT_RESULT=$?
+    
+    if [ $LINT_RESULT -eq 0 ]; then
+        echo "  ✅ AppDir passed the official linter"
+    else
+        echo "  ❌ ERROR: The linter detected issues. Build aborted."
+        # We don't delete AppDir so you can inspect what went wrong
+        exit 1
+    fi
+
+    echo "================================================"
+    echo "🌟 ALL TESTS PASSED!"
+    echo "================================================"
+    
+    # Move everything and clean up only after tests pass
     mv "$GENERATED_FILE" dist/
-    echo "📦 Executable moved to: dist/$GENERATED_FILE"
+    echo "📦 AppImage ready to publish at: dist/$GENERATED_FILE"
     
     echo "🧹 Cleaning up temporary files..."
     rm -rf AppDir
-    rm linuxdeploy-x86_64.AppImage
-    rm linuxdeploy-plugin-python-x86_64.AppImage
+    rm linuxdeploy*.AppImage
+    rm appdir-lint.sh
+    rm excludelist
     
-    echo "✨ Process finished. Everything is clean."
 else
-    echo "❌ Error: Generated AppImage file not found."
+    echo "❌ ERROR: AppImage file could not be generated."
 fi

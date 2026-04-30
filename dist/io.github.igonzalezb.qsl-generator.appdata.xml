@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.igonzalezb.qsl-generator</id>
+  
+  <name>QSL Card Generator</name>
+  <summary>Bulk QSL card generator for radio amateurs</summary>
+  <summary xml:lang="es">Generador masivo de tarjetas QSL para radioaficionados</summary>
+  
+  <metadata_license>FSFAP</metadata_license>
+  <project_license>GPL-3.0</project_license> 
+  
+  <description>
+    <p>A desktop application for amateur radio operators designed to generate QSL cards in bulk from ADIF log files. Built with Python, PyQt6, and Pillow.</p>
+    <p xml:lang="es">Una aplicación de escritorio para radioaficionados diseñada para generar tarjetas QSL en masa a partir de archivos de registro ADIF. Construida con Python, PyQt6 y Pillow.</p>
+
+    <p>Features:</p>
+    <p xml:lang="es">Características:</p>
+    <ul>
+      <li>ADIF Import: Load contacts directly from your favorite logging software.</li>
+      <li xml:lang="es">Importación ADIF: Carga contactos directamente desde tu software favorito.</li>
+
+      <li>Live Preview: See your QSL card updates in real time.</li>
+      <li xml:lang="es">Vista Previa en Vivo: Ve los cambios en tiempo real.</li>
+
+      <li>Highly Customizable: Change table background and text colors, adjust transparency, and choose from 7 predefined table positions.</li>
+      <li xml:lang="es">Altamente Personalizable: Cambia colores de fondo y texto, ajusta la transparencia, y elige entre 7 posiciones predefinidas.</li>
+
+      <li>Manual Editing: Edit contact data directly in the table.</li>
+      <li xml:lang="es">Edición Manual: Edita contactos directamente en la tabla.</li>
+
+      <li>Fast Batch Export: Uses multithreaded background processing.</li>
+      <li xml:lang="es">Exportación Rápida: Usa procesamiento multihilo.</li>
+
+      <li>Multilingual: English and Spanish support with automatic detection.</li>
+      <li xml:lang="es">Multilingüe: Soporte para inglés y español.</li>
+
+      <li>Settings Persistence: Saves your preferences for future sessions.</li>
+      <li xml:lang="es">Persistencia: Guarda preferencias automáticamente.</li>
+    </ul>
+
+    <p>This is a personal project developed for the amateur radio community. Feedback, suggestions, and contributions are always welcome! 73 and good DX!</p>
+    <p xml:lang="es">Este es un proyecto personal desarrollado para la comunidad de radioaficionados. ¡Las sugerencias y contribuciones son bienvenidas! 73 y buen DX!</p>
+  </description>
+  
+  <launchable type="desktop-id">qsl-generator.desktop</launchable>
+  
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/igonzalezb/QSL-Card-Generator/refs/heads/main/docs/main_window_eng.png</image>
+      <caption>Main window of the application</caption>
+      <caption xml:lang="es">Ventana principal de la aplicación</caption>
+    </screenshot>
+  </screenshots>
+
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/igonzalezb/QSL-Card-Generator/refs/heads/main/docs/main_window_eng.png</image>
+      <caption>Main window of the application</caption>
+    </screenshot>
+    
+    <screenshot>
+      <image xml:lang="es">https://raw.githubusercontent.com/igonzalezb/QSL-Card-Generator/refs/heads/main/docs/main_window_spa.png</image>
+      <caption xml:lang="es">Ventana principal de la aplicación</caption>
+    </screenshot>
+  </screenshots>
+  
+  <url type="homepage">https://igonzalezb.github.io/QSL-Card-Generator/</url>
+  <url type="bugtracker">https://github.com/igonzalezb/QSL-Card-Generator/issues</url>
+  
+  <developer_name>LU2EXV</developer_name>
+  
+  <releases>
+    <release version="0.3.1" date="2026-04-29">
+      <description>
+        <p>Initial AppImage release.</p>
+        <p xml:lang="es">Lanzamiento inicial.</p>
+      </description>
+    </release>
+  </releases>
+</component>
