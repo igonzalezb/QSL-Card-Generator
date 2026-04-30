@@ -71,15 +71,15 @@ chmod +x AppDir/usr/bin/qsl-generator
 
     
 echo "------------------------------------------------"
-echo "🔧 INYECTANDO LIBRERÍAS GRÁFICAS XCB/X11..."
+echo "🔧 ADDING LIBRARIES XCB/X11..."
 echo "------------------------------------------------"
-# Copiamos la familia entera de librerías gráficas para que Firejail no moleste
+
 mkdir -p AppDir/usr/lib
 cp -P /usr/lib/x86_64-linux-gnu/libxcb*.so* AppDir/usr/lib/ 2>/dev/null || true
 cp -P /usr/lib/x86_64-linux-gnu/libxkbcommon*.so* AppDir/usr/lib/ 2>/dev/null || true
 
-echo "📦 Cerrando el paquete AppImage final..."
-# Segunda pasada: Empaquetamos el archivo .AppImage definitivo
+echo "📦 Closing the AppImage package..."
+
 ./linuxdeploy-x86_64.AppImage --appdir AppDir --output appimage
 
 echo "------------------------------------------------"
