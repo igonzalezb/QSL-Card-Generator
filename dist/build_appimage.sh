@@ -53,19 +53,35 @@ cat << 'EOF' > AppDir/usr/bin/qsl-generator
 HERE="$(dirname "$(readlink -f "${0}")")"
 export PYTHONPATH="$HERE/../share/qsl-generator:$PYTHONPATH"
 
-# Usamos la ruta absoluta al Python empaquetado ($HERE/python3) 
-# en lugar de confiar en el entorno (python3) para que Firejail no lo rompa
+# LA MAGIA: Le decimos a Python que primero busque librerías gráficas adentro de la AppImage
+export LD_LIBRARY_PATH="$HERE/../lib:$HERE/../lib/x86_64-linux-gnu:$LD_LIBRARY_PATH"
+
 exec "$HERE/python3" "$HERE/../share/qsl-generator/main.py" "$@"
 EOF
 chmod +x AppDir/usr/bin/qsl-generator
 
 # Generate the AppImage
-./linuxdeploy-x86_64.AppImage --appdir AppDir \
+
+./linuxdeploy-x86_64.AppImage \
+    --appdir AppDir \
     --plugin python \
     --executable "$PYTHON_BIN" \
     --desktop-file dist/qsl-generator.desktop \
-    --icon-file icon.png \
-    --output appimage
+    --icon-file icon.png
+
+    
+echo "------------------------------------------------"
+echo "🔧 INYECTANDO LIBRERÍAS GRÁFICAS XCB/X11..."
+echo "------------------------------------------------"
+# Copiamos la familia entera de librerías gráficas para que Firejail no moleste
+mkdir -p AppDir/usr/lib
+cp -P /usr/lib/x86_64-linux-gnu/libxcb*.so* AppDir/usr/lib/ 2>/dev/null || true
+cp -P /usr/lib/x86_64-linux-gnu/libxkbcommon*.so* AppDir/usr/lib/ 2>/dev/null || true
+
+echo "📦 Cerrando el paquete AppImage final..."
+# Segunda pasada: Empaquetamos el archivo .AppImage definitivo
+./linuxdeploy-x86_64.AppImage --appdir AppDir --output appimage
+
 echo "------------------------------------------------"
 echo "🔍 STARTING OFFICIAL QUALITY CHECKS..."
 echo "------------------------------------------------"
