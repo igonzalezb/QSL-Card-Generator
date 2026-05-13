@@ -15,8 +15,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ==============================================================================
+import os
 import sys
+
+os.environ["QT_QPA_PLATFORM"] = "xcb"
 import logging
+
 from logging.handlers import RotatingFileHandler
 from PyQt6.QtWidgets import QApplication
 from PyQt6.QtGui import QIcon
@@ -43,7 +47,7 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     app.setStyle("Fusion")
     
-    app.setWindowIcon(QIcon(resource_path("icon.svg")))
+    app.setWindowIcon(QIcon(resource_path("icon.png")))
     
     try:
         window = QSLGeneratorApp()
