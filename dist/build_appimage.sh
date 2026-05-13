@@ -42,7 +42,7 @@ mkdir -p AppDir/usr/share/applications
 mkdir -p AppDir/usr/share/metainfo
 mkdir -p AppDir/usr/share/appdata
 
-cp -r core ui docs locales resources *.py *.ui *.svg *.png *.ico AppDir/usr/share/qsl-generator/ 2>/dev/null
+cp -r core ui docs locales resources *.py *.ui *.svg *.png *.ico *.ttf AppDir/usr/share/qsl-generator/ 2>/dev/null
 cp io.github.igonzalezb.qsl-generator.appdata.xml AppDir/usr/share/metainfo/qsl-generator.appdata.xml
 cp io.github.igonzalezb.qsl-generator.appdata.xml AppDir/usr/share/appdata/qsl-generator.appdata.xml
 cp qsl-generator.desktop AppDir/usr/share/applications/

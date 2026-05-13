@@ -1,15 +1,20 @@
 from __future__ import annotations
 import logging
+import os
 from PIL import Image, ImageDraw, ImageFont, ImageColor
+
+from core.utils import resource_path
 
 logger = logging.getLogger(__name__)
 
 def get_font(size: int):
+     
     try: 
-        return ImageFont.truetype("arial.ttf", size)
+        return ImageFont.truetype(resource_path("Roboto-Regular.ttf"), size)
     except IOError:
         logger.warning("Font not found, using default.")
         return ImageFont.load_default()
+    
 
 def draw_qsl_core(base_img: Image.Image, config: dict, datos: list) -> tuple[Image.Image, str]:
     if not datos or not datos[0].strip(): 
