@@ -1,6 +1,8 @@
 import json
 import logging
 import urllib.request
+import ssl  # <-- ¡Faltaba importar ssl!
+import certifi
 from PyQt6.QtCore import QThread, pyqtSignal
 
 logger = logging.getLogger(__name__)
@@ -18,7 +20,10 @@ class UpdateChecker(QThread):
             logger.info("Checking for updates on GitHub...")
             req = urllib.request.Request(self.api_url, headers={'User-Agent': 'QSL-Generator-App'})
             
-            with urllib.request.urlopen(req, timeout=5) as response:
+            ssl_context = ssl.create_default_context(cafile=certifi.where())
+            
+
+            with urllib.request.urlopen(req, timeout=5, context=ssl_context) as response:
                 data = json.loads(response.read().decode('utf-8'))
                 
                 latest_version = data.get('tag_name', '').lstrip('v')

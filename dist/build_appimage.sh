@@ -32,7 +32,7 @@ chmod +x appdir-lint.sh
 
 # Python configuration
 export PYTHON_VERSION=3.10
-export PIP_REQUIREMENTS="PyQt6 Pillow adif-io"
+export PIP_REQUIREMENTS="PyQt6 Pillow adif-io certifi"
 PYTHON_BIN=$(which python3)
 
 # Prepare internal structure and copy source code
