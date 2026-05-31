@@ -1,11 +1,20 @@
+import os
+import sys
 import json
 import logging
 import urllib.request
-import ssl  # <-- ¡Faltaba importar ssl!
+import ssl
 import certifi
 from PyQt6.QtCore import QThread, pyqtSignal
 
 logger = logging.getLogger(__name__)
+
+if getattr(sys, 'frozen', False):
+    import certifi
+    cert_path = os.path.join(sys._MEIPASS, 'certifi', 'cacert.pem')
+    os.environ['SSL_CERT_FILE'] = cert_path
+    os.environ['REQUESTS_CA_BUNDLE'] = cert_path
+        
 
 class UpdateChecker(QThread):
     update_available = pyqtSignal(str, str)

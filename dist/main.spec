@@ -1,10 +1,12 @@
 # -*- mode: python ; coding: utf-8 -*-
 import os
 import sys
+import certifi
 
 project_root = os.path.abspath(os.path.join(SPECPATH, '..'))
 
 sys.path.append(project_root)
+
 from core.version import APP_VERSION
 
 block_cipher = None
@@ -12,7 +14,11 @@ block_cipher = None
 added_files = [
     (os.path.join(project_root, 'ui/qsl_design.ui'), 'ui'), 
     (os.path.join(project_root, 'locales'), 'locales'),
-    (os.path.join(project_root, 'icon.svg'), '.')
+    (os.path.join(project_root, 'icon.svg'), '.'),
+    (os.path.join(project_root, 'icon.png'), '.'),
+    (os.path.join(project_root, 'icon.ico'), '.'),
+    (os.path.join(project_root, 'Roboto-Regular.ttf'), '.'),
+    (certifi.where(), 'certifi'),
 ]
 
 a = Analysis(
@@ -20,7 +26,7 @@ a = Analysis(
     pathex=[project_root],                   
     binaries=[],
     datas=added_files,
-    hiddenimports=[],
+    hiddenimports=['certifi'],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
@@ -48,5 +54,5 @@ exe = EXE(
     upx_exclude=[],
     runtime_tmpdir=None,
     console=False, 
-    icon=[os.path.join(project_root, 'icon.ico')], # También actualizamos el ícono
+    icon=[os.path.join(project_root, 'icon.ico')],
 )

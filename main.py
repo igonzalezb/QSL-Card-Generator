@@ -18,7 +18,9 @@
 import os
 import sys
 
-os.environ["QT_QPA_PLATFORM"] = "xcb"
+if sys.platform.startswith("linux"):
+    os.environ["QT_QPA_PLATFORM"] = "xcb"
+
 import logging
 
 from logging.handlers import RotatingFileHandler
