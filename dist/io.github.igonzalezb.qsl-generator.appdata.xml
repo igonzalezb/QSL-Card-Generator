@@ -76,5 +76,11 @@
         <p xml:lang="es">Lanzamiento inicial.</p>
       </description>
     </release>
+      <release version="0.3.2" date="2026-06-15">
+        <description>
+          <p>Fixed issue with the updater</p>
+          <p xml:lang="es">Corregido problema con el actualizador</p>
+        </description>
+      </release>
   </releases>
 </component>

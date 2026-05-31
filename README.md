@@ -75,6 +75,7 @@ python3 ./dist/build_windows.py
 To create AppImage for Linux:
 
 ```bash
+distrobox enter ubuntu20-build
 ./dist/build_appimage.sh
 ```
 
