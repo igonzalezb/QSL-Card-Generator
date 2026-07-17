@@ -29,7 +29,7 @@ jobs:
 
       - name: Build with PyInstaller
         # Llamamos directo al .spec para esquivar el input() de build_windows.py
-        run: pyinstaller main.spec --clean
+        run: pyinstaller dist/main.spec --clean
 
       - name: Upload Windows Artifact
         uses: actions/upload-artifact@v4
