@@ -30,9 +30,37 @@ class ExportWorker(QThread):
         try:
             with Image.open(base_img_path).convert("RGBA") as base_img:
                 final_img, call = draw_qsl_core(base_img, self.config, item['data'])
-                base_filename = f"{item['row']}_QSL_{call.replace('/', '-')}"
+                
+                # item['data'] es la lista de strings de la fila de la tabla
+                qso_list = item['data']
+                safe_call = call.replace('/', '-')
+                
+                band = ""
+                qso_date = ""
+                time_on = ""
+                
+                # Validamos que la lista tenga los elementos necesarios por seguridad
+                if isinstance(qso_list, list) and len(qso_list) >= 4:
+                    # Índice 1: Fecha (Ej: "15/03/2026" -> "15-03-2026")
+                    qso_date = qso_list[1].replace('/', '-').replace('\\', '-').strip()
+                    
+                    # Índice 2: Hora (Ej: "19:30 UTC" -> "1930UTC")
+                    time_on = qso_list[2].replace(':', '').replace(' ', '').strip()
+                    
+                    # Índice 3: Banda (Ej: "40M")
+                    band = qso_list[3].replace('/', '-').replace('\\', '-').strip()
+                
+                # Armamos el nombre solicitado: CALLSIGN_BAND_DATE_TIME
+                name_parts = [safe_call]
+                if band: name_parts.append(band)
+                if qso_date: name_parts.append(qso_date)
+                if time_on: name_parts.append(time_on)
+                
+                base_filename = "_".join(name_parts)
+                
                 save_path = os.path.join(self.out_dir, f"{base_filename}.png")
                 
+                # Control de duplicados por si hay QSOs en el mismo minuto
                 counter = 1
                 while os.path.exists(save_path):
                     save_path = os.path.join(self.out_dir, f"{base_filename}({counter}).png")
