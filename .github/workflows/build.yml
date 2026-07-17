@@ -39,8 +39,7 @@ jobs:
 
   build-linux:
     name: Build Linux (.AppImage)
-    runs-on: ubuntu-20.04 # Usamos 20.04 para máxima compatibilidad con libc viejo
-    
+    runs-on: ubuntu-22.04   
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
