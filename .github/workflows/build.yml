@@ -1,6 +1,5 @@
 name: Build Executables (Windows & Linux)
 
-# Este flujo se ejecutará cuando crees un "Release" en GitHub o de forma manual
 on:
   release:
     types: [created]
@@ -28,36 +27,46 @@ jobs:
           pip install pyinstaller certifi adif-io Pillow PyQt6
 
       - name: Build with PyInstaller
-        # Llamamos directo al .spec para esquivar el input() de build_windows.py
         run: pyinstaller dist/main.spec --clean
 
-      - name: Upload Windows Artifact
+      - name: Upload Windows Artifact (Actions Tab)
         uses: actions/upload-artifact@v4
         with:
           name: QSL_Generator_Windows
           path: dist/*.exe
+          
+      - name: Upload to GitHub Release
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.exe
 
   build-linux:
     name: Build Linux (.AppImage)
-    runs-on: ubuntu-22.04   
+    runs-on: ubuntu-22.04
+    
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
       - name: Install System Dependencies
-        # desktop-file-utils es necesario para tu validación oficial
         run: |
           sudo apt-get update
           sudo apt-get install -y desktop-file-utils libxcb-cursor0
 
       - name: Build AppImage
-        # Le inyectamos una "y" al script para pasar el "read -p"
         run: |
           chmod +x dist/build_appimage.sh
           echo "y" | ./dist/build_appimage.sh
 
-      - name: Upload Linux Artifact
+      - name: Upload Linux Artifact (Actions Tab)
         uses: actions/upload-artifact@v4
         with:
           name: QSL_Generator_Linux
           path: dist/*.AppImage
+          
+      - name: Upload to GitHub Release
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.AppImage
