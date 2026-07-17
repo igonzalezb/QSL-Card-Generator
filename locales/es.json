@@ -16,6 +16,7 @@
   "preview_hint": "Cargá una imagen y seleccioná un contacto.",
   "headers": [
     "",
+    "Operador",
     "Indicativo",
     "Fecha",
     "Hora",

@@ -16,6 +16,7 @@
   "preview_hint": "Load an image and select a contact.",
   "headers": [
     "",
+    "Operator",
     "Callsign",
     "Date",
     "Time",

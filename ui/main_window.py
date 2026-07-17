@@ -83,7 +83,7 @@ class QSLGeneratorApp(QMainWindow):
         self.updater.start()
 
     def setup_ui_elements(self):
-        self.table.setColumnCount(9)
+        self.table.setColumnCount(10)
         self.table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
         self.table.horizontalHeader().setDefaultAlignment(Qt.AlignmentFlag.AlignCenter)
         self.table.horizontalHeader().setStretchLastSection(True)
@@ -218,7 +218,7 @@ class QSLGeneratorApp(QMainWindow):
 
         self.table.setItem(row, 0, checkbox)
 
-        for col in range(1, 9):
+        for col in range(1, 10):
             item = QTableWidgetItem("")
             item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
             self.table.setItem(row, col, item)
@@ -422,78 +422,40 @@ class QSLGeneratorApp(QMainWindow):
 
                 self.table.setItem(row, 0, checkbox)
 
-                self.table.setItem(
-                    row,
-                    1,
-                    QTableWidgetItem(qso.get("CALL", ""))
-                )
+                # 1. Operator
+                op = qso.get("OPERATOR", qso.get("STATION_CALLSIGN", self.config.get("callsign", "")))
+                self.table.setItem(row, 1, QTableWidgetItem(op))
 
+                # 2. Callsign
+                self.table.setItem(row, 2, QTableWidgetItem(qso.get("CALL", "")))
+
+                # 3. Date
                 date = qso.get("QSO_DATE", "")
+                formatted_date = datetime.datetime.strptime(date, "%Y%m%d").strftime("%d/%m/%Y") if len(date) == 8 else date
+                self.table.setItem(row, 3, QTableWidgetItem(formatted_date))
 
-                formatted_date = (
-                    datetime.datetime.strptime(
-                        date,
-                        "%Y%m%d"
-                    ).strftime("%d/%m/%Y")
-                    if len(date) == 8 else date
-                )
-
-                self.table.setItem(
-                    row,
-                    2,
-                    QTableWidgetItem(formatted_date)
-                )
-
+                # 4. Time
                 time_on = qso.get("TIME_ON", "")
+                formatted_time = f"{time_on[:2]}:{time_on[2:4]} UTC" if len(time_on) >= 4 else time_on
+                self.table.setItem(row, 4, QTableWidgetItem(formatted_time))
 
-                formatted_time = (
-                    f"{time_on[:2]}:{time_on[2:4]} UTC"
-                    if len(time_on) >= 4 else time_on
-                )
+                # 5. Band
+                self.table.setItem(row, 5, QTableWidgetItem(qso.get("BAND", "")))
 
-                self.table.setItem(
-                    row,
-                    3,
-                    QTableWidgetItem(formatted_time)
-                )
+                # 6. Mode
+                self.table.setItem(row, 6, QTableWidgetItem(qso.get("MODE", "")))
 
-                self.table.setItem(
-                    row,
-                    4,
-                    QTableWidgetItem(qso.get("BAND", ""))
-                )
-
-                self.table.setItem(
-                    row,
-                    5,
-                    QTableWidgetItem(qso.get("MODE", ""))
-                )
-
+                # 7. Frequency
                 freq = qso.get("FREQ", "")
+                formatted_freq = f"{float(freq):.3f} MHz" if freq.replace(".", "", 1).isdigit() else freq
+                self.table.setItem(row, 7, QTableWidgetItem(formatted_freq))
 
-                formatted_freq = (
-                    f"{float(freq):.3f} MHz"
-                    if freq.replace(".", "", 1).isdigit()
-                    else freq
-                )
+                # 8. RST
+                self.table.setItem(row, 8, QTableWidgetItem(qso.get("RST_SENT", "")))
 
-                self.table.setItem(
-                    row,
-                    6,
-                    QTableWidgetItem(formatted_freq)
-                )
-
-                self.table.setItem(
-                    row,
-                    7,
-                    QTableWidgetItem(qso.get("RST_SENT", ""))
-                )
+                # 9. Comement
                 coment = qso.get("COMMENT", qso.get("QSLMSG", ""))
-                self.table.setItem(
-                    row,
-                    8,
-                    QTableWidgetItem(coment)
-                )
+                self.table.setItem(row, 9, QTableWidgetItem(coment))               
 
             self.table.itemChanged.connect(
                 self.on_table_item_changed
@@ -536,7 +498,7 @@ class QSLGeneratorApp(QMainWindow):
                 self.table.item(row, col).text()
                 if self.table.item(row, col)
                 else ""
-                for col in range(1, 9)
+                for col in range(1, 10)
             ]
 
             try:
@@ -643,7 +605,7 @@ class QSLGeneratorApp(QMainWindow):
                     self.table.item(row, col).text()
                     if self.table.item(row, col)
                     else ""
-                    for col in range(1, 9)
+                    for col in range(1, 10)
                 ]
 
                 export_data.append({

@@ -17,7 +17,8 @@ def get_font(size: int):
     
 
 def draw_qsl_core(base_img: Image.Image, config: dict, datos: list) -> tuple[Image.Image, str]:
-    if not datos or not datos[0].strip(): 
+
+    if not datos or len(datos) < 2 or not datos[1].strip(): 
         logger.warning("Attempt to draw row without callsign.")
         raise ValueError("Missing callsign")
         
@@ -37,7 +38,7 @@ def draw_qsl_core(base_img: Image.Image, config: dict, datos: list) -> tuple[Ima
     row_h = int(40 * scale)
     gap = int(5 * scale)
     
-    show_comment = config.get("show_comments", True) and len(datos) > 7 and datos[7].strip() != ""
+    show_comment = config.get("show_comments", True) and len(datos) > 8 and datos[8].strip() != ""
     
     tot_w = sum(col_w)
     tot_h = (row_h * 4) + (gap * 2) if show_comment else (row_h * 3) + gap
@@ -61,21 +62,23 @@ def draw_qsl_core(base_img: Image.Image, config: dict, datos: list) -> tuple[Ima
     w3 = int(150 * scale)
     w4 = tot_w - (w1 + w2 + w3) 
 
+    operador_final = datos[0] if datos[0].strip() else config.get("callsign", "")
+
     _cell(base_x, base_y, w1, row_h, "OPERATOR:", c_h_bg, c_h_tx)
-    _cell(base_x + w1, base_y, w2, row_h, config["callsign"], c_d_bg, c_d_tx)
+    _cell(base_x + w1, base_y, w2, row_h, operador_final, c_d_bg, c_d_tx)
     _cell(base_x + w1 + w2, base_y, w3, row_h, "QSO WITH:", c_h_bg, c_h_tx)
-    _cell(base_x + w1 + w2 + w3, base_y, w4, row_h, datos[0], c_d_bg, c_d_tx)
+    _cell(base_x + w1 + w2 + w3, base_y, w4, row_h, datos[1], c_d_bg, c_d_tx)
 
     headers = ["DATE", "TIME", "BAND", "MODE", "FREQ", "RST"]
     cx, hy, dy = base_x, base_y + row_h + gap, base_y + (row_h * 2) + gap
     
     for i in range(6):
         _cell(cx, hy, col_w[i], row_h, headers[i], c_h_bg, c_h_tx)
-        _cell(cx, dy, col_w[i], row_h, datos[i+1], c_d_bg, c_d_tx, outline=(200,200,200,op_alpha))
+        _cell(cx, dy, col_w[i], row_h, datos[i+2], c_d_bg, c_d_tx, outline=(200,200,200,op_alpha))
         cx += col_w[i]
         
     if show_comment:
         cy = base_y + (row_h * 3) + (gap * 2)
-        _cell(base_x, cy, tot_w, row_h, datos[7], c_d_bg, c_d_tx, outline=(200,200,200,op_alpha))
+        _cell(base_x, cy, tot_w, row_h, datos[8], c_d_bg, c_d_tx, outline=(200,200,200,op_alpha))
         
-    return Image.alpha_composite(base_img, overlay).convert("RGB"), datos[0]
+    return Image.alpha_composite(base_img, overlay).convert("RGB"), datos[1]
