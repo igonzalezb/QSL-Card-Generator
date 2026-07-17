@@ -1,0 +1,64 @@
+name: Build Executables (Windows & Linux)
+
+# Este flujo se ejecutará cuando crees un "Release" en GitHub o de forma manual
+on:
+  release:
+    types: [created]
+  workflow_dispatch: 
+
+jobs:
+  build-windows:
+    name: Build Windows (.exe)
+    runs-on: windows-latest
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller certifi adif-io Pillow PyQt6
+
+      - name: Build with PyInstaller
+        # Llamamos directo al .spec para esquivar el input() de build_windows.py
+        run: pyinstaller main.spec --clean
+
+      - name: Upload Windows Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: QSL_Generator_Windows
+          path: dist/*.exe
+
+  build-linux:
+    name: Build Linux (.AppImage)
+    runs-on: ubuntu-20.04 # Usamos 20.04 para máxima compatibilidad con libc viejo
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install System Dependencies
+        # desktop-file-utils es necesario para tu validación oficial
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y desktop-file-utils libxcb-cursor0
+
+      - name: Build AppImage
+        # Le inyectamos una "y" al script para pasar el "read -p"
+        run: |
+          chmod +x dist/build_appimage.sh
+          echo "y" | ./dist/build_appimage.sh
+
+      - name: Upload Linux Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: QSL_Generator_Linux
+          path: dist/*.AppImage
