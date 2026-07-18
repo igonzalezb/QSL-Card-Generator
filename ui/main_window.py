@@ -21,7 +21,8 @@ from PyQt6.QtCore import Qt, QEvent, QUrl
 
 from PIL import Image, ImageOps
 import adif_io
-
+import subprocess
+import webbrowser
 from core.i18n import tr, init_i18n
 from core.engine import draw_qsl_core
 from core.exporter import ExportWorker
@@ -695,7 +696,20 @@ class QSLGeneratorApp(QMainWindow):
         )
 
         if reply == QMessageBox.StandardButton.Yes:
-            QDesktopServices.openUrl(QUrl(url))
+            # Fix específico para AppImage en Linux
+            if "APPIMAGE" in os.environ:
+                try:
+                    # Copiamos el entorno y limpiamos las librerías del AppImage
+                    env = os.environ.copy()
+                    env.pop("LD_LIBRARY_PATH", None)
+                    # Llamamos al abridor de URLs nativo de Linux
+                    subprocess.Popen(["xdg-open", url], env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                except Exception as e:
+                    logger.error(f"Error abriendo navegador en AppImage: {e}")
+                    webbrowser.open(url) # Plan B por si falla xdg-open
+            else:
+                # El comportamiento normal para Windows o Python directo
+                QDesktopServices.openUrl(QUrl(url))
     
     def show_preview_menu(self, pos):
         if not self.current_qimage:
