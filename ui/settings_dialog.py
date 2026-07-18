@@ -1,8 +1,8 @@
 from PyQt6.QtWidgets import (QDialog, QFormLayout, QComboBox, QLineEdit, 
                              QHBoxLayout, QPushButton, QFileDialog, QSpinBox, 
                              QColorDialog, QDialogButtonBox, QCheckBox, 
-                             QSlider, QLabel) # Agregamos QSlider y QLabel
-from PyQt6.QtCore import Qt # Agregamos Qt para la orientación del slider
+                             QSlider, QLabel, QGridLayout)
+from PyQt6.QtCore import Qt 
 from PyQt6.QtGui import QColor
 from core.i18n import tr, CURRENT_LANG
 import os
@@ -41,7 +41,6 @@ class SettingsDialog(QDialog):
         layout.addRow(tr("set_pos"), self.cmb_pos)
         
         scale_lay = QHBoxLayout()
-        
         self.slider_scale = QSlider(Qt.Orientation.Horizontal)
         self.slider_scale.setMinimum(2)
         self.slider_scale.setMaximum(50)
@@ -58,9 +57,8 @@ class SettingsDialog(QDialog):
         
         scale_lay.addWidget(self.slider_scale)
         scale_lay.addWidget(self.lbl_scale_val)
-        
         layout.addRow(tr("set_scale"), scale_lay)
-         
+        
         self.spn_opac = QSpinBox()
         self.spn_opac.setMaximum(100)
         self.spn_opac.setValue(self.config.get("opacity", 85))
@@ -72,17 +70,51 @@ class SettingsDialog(QDialog):
         self.spin_threads.setValue(self.config.get("threads", 1))
         layout.addRow(tr("set_threads"), self.spin_threads)
         
+        lang = self.config.get("lang", "default")
+        if lang == "default":
+            lang = CURRENT_LANG
+            
+        if lang == "es":
+            txt_headers = "Títulos:"
+            txt_data = "Contactos:"
+            txt_bg = "Fondo"
+            txt_txt = "Texto"
+        else:
+            txt_headers = "Headers:"
+            txt_data = "Data:"
+            txt_bg = "Background"
+            txt_txt = "Text"
         
-        c_lay = QHBoxLayout()
-        for k, label in [("color_h_bg", "H-BG"), ("color_h_txt", "H-TX"), ("color_d_bg", "D-BG"), ("color_d_txt", "D-TX")]:
-            b = QPushButton(label); self.update_btn_color(b, self.config[k])
-            b.clicked.connect(lambda chk, btn=b, key=k: self.pick_color(key, btn))
-            c_lay.addWidget(b)
-        layout.addRow(tr("set_color"), c_lay)
+        color_grid = QGridLayout()
+        color_grid.setContentsMargins(0, 0, 0, 0)
+        
+        btn_h_bg = QPushButton(txt_bg)
+        btn_h_txt = QPushButton(txt_txt)
+        btn_d_bg = QPushButton(txt_bg)
+        btn_d_txt = QPushButton(txt_txt)
+        
+        color_grid.addWidget(QLabel(txt_headers), 0, 0)
+        color_grid.addWidget(btn_h_bg, 0, 1)
+        color_grid.addWidget(btn_h_txt, 0, 2)
+        
+        color_grid.addWidget(QLabel(txt_data), 1, 0)
+        color_grid.addWidget(btn_d_bg, 1, 1)
+        color_grid.addWidget(btn_d_txt, 1, 2)
+        
+        for btn, key in [(btn_h_bg, "color_h_bg"), (btn_h_txt, "color_h_txt"), 
+                         (btn_d_bg, "color_d_bg"), (btn_d_txt, "color_d_txt")]:
+            self.update_btn_color(btn, self.config[key])
+            btn.clicked.connect(lambda chk, b=btn, k=key: self.pick_color(k, b))
+            
+        layout.addRow(tr("set_color"), color_grid)
         
         self.chk_comments = QCheckBox()
         self.chk_comments.setChecked(self.config.get("show_comments", True))
-        layout.addRow(tr("set_comments"), self.chk_comments)
+        
+        lbl_comments = QLabel(tr("set_comments"))
+        lbl_comments.setWordWrap(True)
+        
+        layout.addRow(lbl_comments, self.chk_comments)
                 
         self.bb = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel)
         self.bb.accepted.connect(self.accept); self.bb.rejected.connect(self.reject)
@@ -119,14 +151,14 @@ class SettingsDialog(QDialog):
         b.setStyleSheet(f"background-color: {hex_c}; color: {tc}; border: 1px solid #aaa; border-radius: 4px; padding: 4px;")
 
     def get_data(self) -> dict:
-            self.config.update({
-                "lang": self.cmb_lang.currentData(),
-                "threads": self.spin_threads.value(), 
-                "callsign": self.inp_call.text().strip().upper(), 
-                "default_bg": self.inp_bg.text().strip(), 
-                "pos": self.cmb_pos.currentData(), 
-                "opacity": self.spn_opac.value(),
-                "table_scale": self.slider_scale.value() / 10.0,
-                "show_comments": self.chk_comments.isChecked()
-            })
-            return self.config
+        self.config.update({
+            "lang": self.cmb_lang.currentData(),
+            "threads": self.spin_threads.value(), 
+            "callsign": self.inp_call.text().strip().upper(), 
+            "default_bg": self.inp_bg.text().strip(), 
+            "pos": self.cmb_pos.currentData(), 
+            "opacity": self.spn_opac.value(),
+            "table_scale": self.slider_scale.value() / 10.0, 
+            "show_comments": self.chk_comments.isChecked()
+        })
+        return self.config
