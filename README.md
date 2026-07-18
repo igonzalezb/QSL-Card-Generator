@@ -66,7 +66,7 @@ QSL-Card-Generator/
 To create a standalone executable using PyInstaller:
 
 ```bash
-pip install pyinstaller
+pip install -r requirements.txt
 python3 ./dist/build_windows.py
 ```
 
