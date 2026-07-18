@@ -8,7 +8,6 @@ from core.utils import resource_path
 logger = logging.getLogger(__name__)
 
 def get_font(size: int):
-     
     try: 
         return ImageFont.truetype(resource_path("Roboto-Regular.ttf"), size)
     except IOError:
@@ -34,18 +33,41 @@ def draw_qsl_core(base_img: Image.Image, config: dict, datos: list) -> tuple[Ima
     c_h_tx, c_d_tx = get_rgba(config["color_h_txt"], 255), get_rgba(config["color_d_txt"], 255)
     
     scale = config.get("table_scale", 1.0)
-    col_w = [int(w * scale) for w in [150, 120, 100, 120, 150, 100]]
+    
+    font = get_font(int(24 * scale))
+    
+    headers = ["DATE", "TIME", "BAND", "MODE", "FREQ", "RST"]
+    datos_qso = [datos[i+2] for i in range(6)]
+    
+    col_w = []
+    padding = int(40 * scale)
+    
+    for i in range(6):
+        bbox_h = draw.textbbox((0, 0), headers[i], font=font)
+        w_h = bbox_h[2] - bbox_h[0]
+        
+        bbox_d = draw.textbbox((0, 0), datos_qso[i], font=font)
+        w_d = bbox_d[2] - bbox_d[0]
+        
+        col_w.append(max(w_h, w_d) + padding)
+        
+    tot_w = sum(col_w)
+    
+    min_top_w = int((150 + 220 + 150 + 150) * scale)
+    if tot_w < min_top_w:
+        diff = min_top_w - tot_w
+        add_per_col = diff // 6
+        col_w = [w + add_per_col for w in col_w]
+        tot_w = sum(col_w)
+
     row_h = int(40 * scale)
     gap = int(5 * scale)
     
     show_comment = config.get("show_comments", True) and len(datos) > 8 and datos[8].strip() != ""
     
-    tot_w = sum(col_w)
     tot_h = (row_h * 4) + (gap * 2) if show_comment else (row_h * 3) + gap
     
-    font = get_font(int(24 * scale))
     pos = config["pos"]
-    
     base_x = 50 if "left" in pos else (base_img.width - tot_w - 50 if "right" in pos else (base_img.width - tot_w) // 2)
     base_y = 50 if "top" in pos else (base_img.height - tot_h - 50 if "bottom" in pos else (base_img.height - tot_h) // 2)
 
@@ -69,7 +91,6 @@ def draw_qsl_core(base_img: Image.Image, config: dict, datos: list) -> tuple[Ima
     _cell(base_x + w1 + w2, base_y, w3, row_h, "QSO WITH:", c_h_bg, c_h_tx)
     _cell(base_x + w1 + w2 + w3, base_y, w4, row_h, datos[1], c_d_bg, c_d_tx)
 
-    headers = ["DATE", "TIME", "BAND", "MODE", "FREQ", "RST"]
     cx, hy, dy = base_x, base_y + row_h + gap, base_y + (row_h * 2) + gap
     
     for i in range(6):
