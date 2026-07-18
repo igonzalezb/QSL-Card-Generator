@@ -42,6 +42,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: dist/*.exe
+          generate_release_notes: true
 
   build-linux:
     name: Build Linux (.AppImage)
@@ -72,3 +73,4 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: dist/*.AppImage
+          generate_release_notes: true
