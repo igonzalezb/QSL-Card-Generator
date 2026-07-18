@@ -55,7 +55,7 @@ class ExportWorker(QThread):
                     
                 
                 name_parts = []
-                if operator: name_parts.append(operator)
+                #if operator: name_parts.append(operator)
                 name_parts.append(safe_call)
                 
                 if band: name_parts.append(band)
