@@ -1,4 +1,8 @@
-from PyQt6.QtWidgets import QDialog, QFormLayout, QComboBox, QLineEdit, QHBoxLayout, QPushButton, QFileDialog, QSpinBox, QDoubleSpinBox, QColorDialog, QDialogButtonBox, QCheckBox
+from PyQt6.QtWidgets import (QDialog, QFormLayout, QComboBox, QLineEdit, 
+                             QHBoxLayout, QPushButton, QFileDialog, QSpinBox, 
+                             QColorDialog, QDialogButtonBox, QCheckBox, 
+                             QSlider, QLabel) # Agregamos QSlider y QLabel
+from PyQt6.QtCore import Qt # Agregamos Qt para la orientación del slider
 from PyQt6.QtGui import QColor
 from core.i18n import tr, CURRENT_LANG
 import os
@@ -36,14 +40,27 @@ class SettingsDialog(QDialog):
         self.refresh_combo_pos()
         layout.addRow(tr("set_pos"), self.cmb_pos)
         
-        self.spn_scale = QDoubleSpinBox()
-        self.spn_scale.setPrefix("x ")
-        self.spn_scale.setMinimum(0.2)
-        self.spn_scale.setMaximum(5.0)
-        self.spn_scale.setSingleStep(0.1)
-        self.spn_scale.setValue(self.config.get("table_scale", 1.0))
-        layout.addRow(tr("set_scale"), self.spn_scale)
+        scale_lay = QHBoxLayout()
         
+        self.slider_scale = QSlider(Qt.Orientation.Horizontal)
+        self.slider_scale.setMinimum(2)
+        self.slider_scale.setMaximum(50)
+        
+        initial_scale = self.config.get("table_scale", 1.0)
+        self.slider_scale.setValue(int(initial_scale * 10))
+        
+        self.lbl_scale_val = QLabel(f"x {initial_scale:.1f}")
+        self.lbl_scale_val.setMinimumWidth(40)
+        
+        self.slider_scale.valueChanged.connect(
+            lambda val: self.lbl_scale_val.setText(f"x {val / 10.0:.1f}")
+        )
+        
+        scale_lay.addWidget(self.slider_scale)
+        scale_lay.addWidget(self.lbl_scale_val)
+        
+        layout.addRow(tr("set_scale"), scale_lay)
+         
         self.spn_opac = QSpinBox()
         self.spn_opac.setMaximum(100)
         self.spn_opac.setValue(self.config.get("opacity", 85))
@@ -109,7 +126,7 @@ class SettingsDialog(QDialog):
                 "default_bg": self.inp_bg.text().strip(), 
                 "pos": self.cmb_pos.currentData(), 
                 "opacity": self.spn_opac.value(),
-                "table_scale": self.spn_scale.value(),
+                "table_scale": self.slider_scale.value() / 10.0,
                 "show_comments": self.chk_comments.isChecked()
             })
             return self.config
