@@ -696,19 +696,15 @@ class QSLGeneratorApp(QMainWindow):
         )
 
         if reply == QMessageBox.StandardButton.Yes:
-            # Fix específico para AppImage en Linux
             if "APPIMAGE" in os.environ:
                 try:
-                    # Copiamos el entorno y limpiamos las librerías del AppImage
                     env = os.environ.copy()
                     env.pop("LD_LIBRARY_PATH", None)
-                    # Llamamos al abridor de URLs nativo de Linux
                     subprocess.Popen(["xdg-open", url], env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
                 except Exception as e:
-                    logger.error(f"Error abriendo navegador en AppImage: {e}")
-                    webbrowser.open(url) # Plan B por si falla xdg-open
+                    logger.error(f"Error opening URL in AppImage: {e}")
+                    webbrowser.open(url)
             else:
-                # El comportamiento normal para Windows o Python directo
                 QDesktopServices.openUrl(QUrl(url))
     
     def show_preview_menu(self, pos):
